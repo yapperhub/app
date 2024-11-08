@@ -5,7 +5,7 @@
         <div class="container mx-auto px-4 py-8">
             <h1 class="text-center text-3xl font-bold">Terms of Use</h1>
             <p class="mt-4 text-center text-gray-600">Last updated: Friday, November 8, 2024</p>
-            <div class="mt-8">
+            <div class="mt-8" id="terms">
                 <h2 class="text-2xl font-bold">Terms</h2>
                 <p class="mt-4 text-lg text-gray-600">
                     By accessing this website, you are agreeing to be bound by these website Terms and Conditions of
@@ -15,7 +15,7 @@
                     and trademark law.
                 </p>
             </div>
-            <div class="mt-20">
+            <div class="mt-20" id="use-license">
                 <h2 class="text-2xl font-bold">Use License</h2>
                 <ol class="mt-4 list-decimal text-lg text-gray-600">
                     <li>
@@ -45,7 +45,7 @@
                     </li>
                 </ol>
             </div>
-            <div class="mt-20">
+            <div class="mt-20" id="disclaimer">
                 <h2 class="text-2xl font-bold">Disclaimer</h2>
                 <p class="mt-4 text-lg text-gray-600">
                     The materials on Yapper Hub's website are provided on an 'as is' basis. Yapper Hub makes no
