@@ -33,3 +33,17 @@ it('tests that the terms page have different section', function () {
     $response->assertSee('disclaimer');
     $response->assertSee('footer');
 });
+
+it('returns a successful response to privacy page', function () {
+    $response = $this->get('/privacy');
+
+    $response->assertStatus(200);
+});
+
+it('tests that the privacy page have different section', function () {
+    $response = $this->get('/privacy');
+
+    $response->assertSee('privacy');
+    $response->assertSee('securing-api-keys');
+    $response->assertSee('footer');
+});
