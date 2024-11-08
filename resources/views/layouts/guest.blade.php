@@ -18,7 +18,7 @@
         <div class="flex min-h-screen flex-col items-center bg-gray-100 pt-6 sm:justify-center sm:pt-0">
             <div>
                 <a href="/" wire:navigate>
-                    <x-application-logo class="h-20 w-20 fill-current text-gray-500" />
+                    <x-application-logo class="h-44 w-44 fill-current" />
                 </a>
             </div>
 

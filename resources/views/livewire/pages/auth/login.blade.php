@@ -69,7 +69,7 @@ new #[Layout('layouts.guest')] class extends Component
                     wire:model="form.remember"
                     id="remember"
                     type="checkbox"
-                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500"
+                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-sky-500"
                     name="remember"
                 />
                 <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
@@ -79,7 +79,7 @@ new #[Layout('layouts.guest')] class extends Component
         <div class="mt-4 flex items-center justify-end">
             @if (Route::has('password.request'))
                 <a
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
                     href="{{ route('password.request') }}"
                     wire:navigate
                 >

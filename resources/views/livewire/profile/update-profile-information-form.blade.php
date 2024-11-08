@@ -117,7 +117,7 @@ new class extends Component
 
                         <button
                             wire:click.prevent="sendVerification"
-                            class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
                         >
                             {{ __('Click here to re-send the verification email.') }}
                         </button>
