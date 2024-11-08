@@ -24,7 +24,7 @@ new class extends Component
                 <!-- Logo -->
                 <div class="flex shrink-0 items-center">
                     <a href="{{ route('dashboard') }}" wire:navigate>
-                        <x-application-logo class="fill-current block h-9 w-auto text-gray-800" />
+                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
 
@@ -41,7 +41,7 @@ new class extends Component
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
-                            class="border-transparent inline-flex items-center rounded-md border bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
+                            class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
                         >
                             <div
                                 x-data="{{ json_encode(['name' => auth()->user()->name]) }}"
@@ -51,7 +51,7 @@ new class extends Component
 
                             <div class="ms-1">
                                 <svg
-                                    class="fill-current h-4 w-4"
+                                    class="h-4 w-4 fill-current"
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 20 20"
                                 >

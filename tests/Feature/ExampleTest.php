@@ -9,3 +9,12 @@ it('returns a successful response', function () {
 
     $response->assertStatus(200);
 });
+
+it('tests that the landing page have different section', function () {
+    $response = $this->get('/');
+
+    $response->assertSee('hero');
+    $response->assertSee('why-us');
+    $response->assertSee('how-it-works');
+    $response->assertSee('footer');
+});
