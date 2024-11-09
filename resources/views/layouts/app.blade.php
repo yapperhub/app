@@ -19,18 +19,16 @@
             <livewire:layout.navigation />
 
             <!-- Page Heading -->
-            {{--
-                @if (isset($header))
+            @if (isset($header))
                 <header class="bg-white shadow">
-                <div class="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
-                {{ $header }}
-                </div>
+                    <div class="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
+                        {{ $header }}
+                    </div>
                 </header>
-                @endif
-            --}}
+            @endif
 
             <!-- Page Content -->
-            <main>
+            <main class="p-8">
                 {{ $slot }}
             </main>
         </div>
