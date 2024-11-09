@@ -3,7 +3,7 @@
 use App\Models\User;
 use Livewire\Volt\Volt;
 
-test('login screen can be rendered', function () {
+test('login screen can be rendered', function (): void {
     $response = $this->get('/login');
 
     $response
@@ -11,7 +11,7 @@ test('login screen can be rendered', function () {
         ->assertSeeVolt('pages.auth.login');
 });
 
-test('users can authenticate using the login screen', function () {
+test('users can authenticate using the login screen', function (): void {
     $user = User::factory()->create();
 
     $component = Volt::test('pages.auth.login')
@@ -27,7 +27,7 @@ test('users can authenticate using the login screen', function () {
     $this->assertAuthenticated();
 });
 
-test('users can not authenticate with invalid password', function () {
+test('users can not authenticate with invalid password', function (): void {
     $user = User::factory()->create();
 
     $component = Volt::test('pages.auth.login')
@@ -43,7 +43,7 @@ test('users can not authenticate with invalid password', function () {
     $this->assertGuest();
 });
 
-test('navigation menu can be rendered', function () {
+test('navigation menu can be rendered', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);
@@ -55,7 +55,7 @@ test('navigation menu can be rendered', function () {
         ->assertSeeVolt('layout.navigation');
 });
 
-test('users can logout', function () {
+test('users can logout', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);

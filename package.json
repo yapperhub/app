@@ -5,7 +5,7 @@
         "build": "vite build",
         "dev": "vite",
         "prepare": "husky install",
-        "lint": "npx prettier --write resources/ && ./vendor/bin/duster fix"
+        "lint": "npx prettier --write resources/ && ./vendor/bin/duster fix && ./vendor/bin/rector process && ./vendor/bin/phpstan analyse"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",

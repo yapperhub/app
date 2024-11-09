@@ -4,7 +4,7 @@ namespace Tests\Feature\Auth;
 
 use Livewire\Volt\Volt;
 
-test('registration screen can be rendered', function () {
+test('registration screen can be rendered', function (): void {
     $response = $this->get('/register');
 
     $response
@@ -12,7 +12,7 @@ test('registration screen can be rendered', function () {
         ->assertSeeVolt('pages.auth.register');
 });
 
-test('new users can register', function () {
+test('new users can register', function (): void {
     $component = Volt::test('pages.auth.register')
         ->set('name', 'Test User')
         ->set('email', 'test@example.com')
