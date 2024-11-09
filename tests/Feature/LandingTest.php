@@ -13,7 +13,7 @@ it('returns a successful response to landing', function () {
 it('tests that the landing page have different section', function () {
     $response = $this->get('/');
 
-    $response->assertSee('hero');
+    $response->assertSeeVolt('hero');
     $response->assertSee('why-us');
     $response->assertSee('how-it-works');
     $response->assertSee('footer');
