@@ -1,0 +1,14 @@
+includes:
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+
+parameters:
+    checkMissingIterableValueType: true
+
+    level: 1
+
+    paths:
+        - app
+        - config
+        - bootstrap
+        - database/factories
+        - routes

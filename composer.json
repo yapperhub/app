@@ -63,21 +63,6 @@
             "Composer\\Config::disableProcessTimeout",
             "sail up -d",
             "npx concurrently -c \"#c4b5fd,#fb7185,#fdba74\" \"sail artisan queue:listen --tries=1\" \"sail artisan pail --timeout=0\" npm:dev --names=queue,logs,vite"
-        ],
-        "lint": "pint",
-        "refactor": "rector",
-        "test:lint": "pint --test",
-        "test:refactor": "rector --dry-run",
-        "test:types": "phpstan analyse",
-        "test:arch": "pest --filter=arch",
-        "test:type-coverage": "pest --type-coverage --min=100",
-        "test:unit": "pest --parallel --coverage --min=100",
-        "test": [
-            "@test:lint",
-            "@test:refactor",
-            "@test:types",
-            "@test:type-coverage",
-            "@test:unit"
         ]
     },
     "extra": {
