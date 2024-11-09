@@ -1,16 +1,16 @@
 <?php
 
-it('tests that the .env key are same across all .env files.', function () {
+it('tests that the .env key are same across all .env files.', function (): void {
     $this->artisan('env:keys-check --auto-add=none')->assertExitCode(0);
 });
 
-it('returns a successful response to landing', function () {
+it('returns a successful response to landing', function (): void {
     $response = $this->get('/');
 
     $response->assertStatus(200);
 });
 
-it('tests that the landing page have different section', function () {
+it('tests that the landing page have different section', function (): void {
     $response = $this->get('/');
 
     $response->assertSeeVolt('hero');
@@ -19,13 +19,13 @@ it('tests that the landing page have different section', function () {
     $response->assertSee('footer');
 });
 
-it('returns a successful response to terms page', function () {
+it('returns a successful response to terms page', function (): void {
     $response = $this->get('/terms');
 
     $response->assertStatus(200);
 });
 
-it('tests that the terms page have different section', function () {
+it('tests that the terms page have different section', function (): void {
     $response = $this->get('/terms');
 
     $response->assertSee('terms');
@@ -34,13 +34,13 @@ it('tests that the terms page have different section', function () {
     $response->assertSee('footer');
 });
 
-it('returns a successful response to privacy page', function () {
+it('returns a successful response to privacy page', function (): void {
     $response = $this->get('/privacy');
 
     $response->assertStatus(200);
 });
 
-it('tests that the privacy page have different section', function () {
+it('tests that the privacy page have different section', function (): void {
     $response = $this->get('/privacy');
 
     $response->assertSee('privacy');
