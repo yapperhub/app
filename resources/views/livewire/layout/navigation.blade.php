@@ -24,7 +24,7 @@ new class extends Component
                 <!-- Logo -->
                 <div class="flex shrink-0 items-center">
                     <a href="{{ route('welcome') }}" wire:navigate>
-                        <x-application-logo class="mt-3 block h-12 w-auto fill-current invert"/>
+                        <x-application-logo class="mt-3 block h-12 w-auto fill-current invert" />
                     </a>
                 </div>
 
@@ -41,7 +41,7 @@ new class extends Component
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
-                            class="inline-flex items-center rounded-md text-white px-3 py-2 text-lg font-medium leading-4 transition duration-150 ease-in-out hover:text-white focus:outline-none"
+                            class="inline-flex items-center rounded-md px-3 py-2 text-lg font-medium leading-4 text-white transition duration-150 ease-in-out hover:text-white focus:outline-none"
                         >
                             <div
                                 x-data="{{ json_encode(['name' => auth()->user()->name]) }}"
