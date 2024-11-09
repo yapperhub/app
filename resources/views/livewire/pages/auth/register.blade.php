@@ -18,6 +18,11 @@ new #[Layout('layouts.guest')] class extends Component
 
     public string $password_confirmation = '';
 
+    public function mount(): void
+    {
+        $this->email = request('with') ?? '';
+    }
+
     /**
      * Handle an incoming registration request.
      */
