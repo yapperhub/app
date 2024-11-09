@@ -9,6 +9,11 @@ new #[Layout('layouts.guest')] class extends Component
 {
     public LoginForm $form;
 
+    public function mount(): void
+    {
+        $this->form->email = request('with') ?? '';
+    }
+
     /**
      * Handle an incoming authentication request.
      */
