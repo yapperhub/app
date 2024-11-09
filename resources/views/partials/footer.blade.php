@@ -8,10 +8,10 @@
             </div>
             <ul class="flex flex-wrap items-center space-x-4 sm:space-x-8">
                 <li>
-                    <a rel="noopener noreferrer" href="{{ route('terms') }}">Terms of Use</a>
+                    <a rel="noopener noreferrer" href="{{ route('terms') }}" wire:navigate>Terms of Use</a>
                 </li>
                 <li>
-                    <a rel="noopener noreferrer" href="{{ route('privacy') }}">Privacy</a>
+                    <a rel="noopener noreferrer" href="{{ route('privacy') }}" wire:navigate>Privacy</a>
                 </li>
             </ul>
         </div>

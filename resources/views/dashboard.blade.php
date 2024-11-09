@@ -1,17 +1,16 @@
 <x-app-layout>
-    <x-slot name="header">
+    {{--
+        <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Dashboard') }}
+        {{ __('Dashboard') }}
         </h2>
-    </x-slot>
+        </x-slot>
+    --}}
 
-    <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
-            </div>
+    <div class="container mx-auto mt-4 sm:px-6 lg:px-8">
+        <div class="text-gray-500">
+            {{ __("You're logged in as ") }}
+            <span class="">{{ auth()->user()->name }} ({{ auth()->user()->email }})</span>
         </div>
     </div>
 </x-app-layout>
