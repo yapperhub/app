@@ -1,34 +1,26 @@
 <?php
 
+use App\Livewire\Forms\PostForm;
 use Livewire\Volt\Component;
 
 new class extends Component
 {
-    public string $title = '';
+    public PostForm $form;
 
-    public string $excerpt = '';
-
-    public string $featured_image = '';
-
-    public string $content = '';
-
-    public function createPost(): void
+    public function submit(): void
     {
-        $this->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'excerpt' => ['required', 'string', 'max:255'],
-            'featured_image' => ['nullable', 'string'],
-            'content' => ['required', 'string'],
-        ]);
+        $this->form->store();
+
+        $this->redirect(route('posts.index'));
     }
 }; ?>
 
 <div>
-    <form wire:submit.prevent="createPost">
+    <form wire:submit.prevent="submit">
         <div class="container mx-auto mt-4 text-lg">
             @include('livewire.posts.partials.fields')
-            <div class="mt-8 flex w-1/2 justify-start">
-                <x-primary-button>Save</x-primary-button>
+            <div class="mt-4 flex w-1/2 justify-start">
+                <x-primary-button type="submit">Save</x-primary-button>
             </div>
         </div>
     </form>
