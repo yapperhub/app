@@ -20,6 +20,17 @@
                 class="w-full"
             />
         </div>
+
+        <div class="space-y-1">
+            <x-input-label for="canonical-url" required="{{ false }}">Canonical Url</x-input-label>
+            <x-text-input
+                id="canonical-url"
+                name="form.canonical_url"
+                type="url"
+                wire:model="form.canonical_url"
+                class="w-full"
+            />
+        </div>
     </div>
 
     <div class="ml-12">

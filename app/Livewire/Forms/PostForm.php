@@ -17,6 +17,9 @@ class PostForm extends Form
     #[Validate('nullable|url')]
     public string $featured_image = '';
 
+    #[Validate('nullable|url')]
+    public string $canonical_url = '';
+
     #[Validate('required|string')]
     public string $content = '';
 
