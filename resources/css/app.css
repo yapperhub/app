@@ -1,3 +1,6 @@
+@import url('https://unpkg.com/easymde/dist/easymde.min.css');
+@import './editor-preview.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

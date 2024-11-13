@@ -36,14 +36,18 @@
     <div class="ml-12">
         <x-h2-heading>Editor Basics</x-h2-heading>
         <div class="mt-6 space-y-4">
-            <p>Use Markdown to format your post. Here are some basic examples:</p>
+            <p>Use Markdown to format your post.</p>
+            <p>
+                The tool bar above the editor can also help you format your post but is not limited to the available
+                options.
+            </p>
+            <p>Here are some basic examples:</p>
             <ul class="list-inside list-disc">
                 <li>**bold text**</li>
                 <li>*italic text*</li>
                 <li>[link text](https://example.com)</li>
                 <li>![image alt text](https://example.com/image.jpg)</li>
-                <li># Heading 1</li>
-                <li>## Heading 2 and so on</li>
+                <li># Heading 1 and ## Heading 2 and so on</li>
             </ul>
             <p>
                 For more advanced formatting, check out the
@@ -56,6 +60,6 @@
     </div>
 </div>
 <div class="mt-6 space-y-1">
-    <x-input-label for="content" required="{{ true }}">content</x-input-label>
+    <x-input-label for="content" required="{{ true }}">Content</x-input-label>
     <x-mary-markdown wire:model="form.content" label="" />
 </div>

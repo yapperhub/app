@@ -14,7 +14,6 @@
         <meta name="csrf-token" content="{{ csrf_token() }}" />
 
         {{-- EasyMDE --}}
-        <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css" />
         <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
 
         <meta name="color-scheme" content="light only" />
@@ -27,7 +26,7 @@
 
             <!-- Page Heading -->
             @if (isset($header))
-                <header class="bg-white shadow">
+                <header class="bg-white shadow dark:bg-black">
                     <div class="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>

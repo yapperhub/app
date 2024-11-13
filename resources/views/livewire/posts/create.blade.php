@@ -7,15 +7,17 @@ new class extends Component
 {
     public PostForm $form;
 
-    public function submit(): void
+    public function submit(): Livewire\Features\SupportRedirects\Redirector
     {
-        $this->form->store();
+        $post = $this->form->store();
 
-        $this->redirect(route('posts.index'));
+        return redirect(route('posts.edit', $post->id));
     }
 }; ?>
 
 <div>
+    <link rel="stylesheet" href="./partials/preview.css" />
+
     <form wire:submit.prevent="submit">
         <div class="container mx-auto mt-4 text-lg">
             @include('livewire.posts.partials.fields')
