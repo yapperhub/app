@@ -31,6 +31,8 @@ class PostForm extends Form
     #[Validate('required|string')]
     public string $content = '';
 
+    public bool $isPublished = false;
+
     /**
      * @throws ValidationException
      * @throws Exception
@@ -58,6 +60,7 @@ class PostForm extends Form
                 'featured_image' => $this->featured_image,
                 'content' => $this->content,
                 'platform_id' => $yapperHubPlatform->id,
+                'published_at' => $this->isPublished ? now() : null,
             ]);
 
             DB::commit();
@@ -70,6 +73,11 @@ class PostForm extends Form
             DB::rollBack();
             throw new Exception($e->getMessage());
         }
+    }
+
+    public function setPublished(): void
+    {
+        $this->isPublished = true;
     }
 
     /**
