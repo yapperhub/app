@@ -11,7 +11,7 @@ class Platform extends Model
 
     protected $fillable = ['name', 'slug', 'description', 'url', 'logo', 'credentials', 'is_active'];
 
-    protected $primaryKey = 'uuid';
+    protected $primaryKey = 'id';
 
     protected $keyType = 'string';
 }
