@@ -22,7 +22,7 @@ class PostForm extends Form
     #[Validate('required|string|max:255')]
     public string $excerpt = '';
 
-    #[Validate('nullable|url')]
+    #[Validate('nullable|image|max:3072')] // 3MB max
     public string $featured_image = '';
 
     #[Validate('nullable|url')]
@@ -54,10 +54,15 @@ class PostForm extends Form
                 'user_id' => auth()->id(),
             ]);
 
+            $featuredImageUrl = null;
+            if (! empty($this->featured_image)) {
+                $featuredImageUrl = $this->featured_image->store('featured_images', 'public');
+            }
+
             PostDetail::query()->create([
                 'post_id' => $post->id,
                 'excerpt' => $this->excerpt,
-                'featured_image' => $this->featured_image,
+                'featured_image' => $featuredImageUrl,
                 'content' => $this->content,
                 'platform_id' => $yapperHubPlatform->id,
                 'published_at' => $this->isPublished ? now() : null,

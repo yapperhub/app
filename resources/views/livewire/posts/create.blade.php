@@ -3,17 +3,26 @@
 use App\Concerns\Constants;
 use App\Livewire\Forms\PostForm;
 use Livewire\Volt\Component;
+use Livewire\WithFileUploads;
+use Mary\Traits\Toast;
 
 new class extends Component
 {
+    use Toast, WithFileUploads;
+
     public PostForm $form;
 
-    public function submit(): Livewire\Features\SupportRedirects\Redirector
+    public function submit(): void
     {
         $post = $this->form->store();
 
-        return redirect(
-            route('posts.edit', [
+        $this->toast(
+            type: 'success',
+            title: 'Post is created!',
+            description: 'You can now edit the post.',
+            position: 'toast-top toast-end',
+            timeout: 4000,
+            redirectTo: route('posts.edit', [
                 'post' => $post->id,
                 'platform' => Constants::YAPPER_HUB_PLATFORM_SLUG,
             ]),

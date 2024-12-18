@@ -39,5 +39,7 @@
             </main>
         </div>
         @include('partials.footer')
+
+        <x-mary-toast />
     </body>
 </html>

@@ -5,9 +5,12 @@ use App\Models\Post;
 use App\Models\PostDetail;
 use JetBrains\PhpStorm\NoReturn;
 use Livewire\Volt\Component;
+use Mary\Traits\Toast;
 
 new class extends Component
 {
+    use Toast;
+
     public PostForm $form;
 
     public Post $post;
@@ -31,14 +34,11 @@ new class extends Component
         $this->form->content = $this->postDetails->content;
     }
 
-    public function submit(): Livewire\Features\SupportRedirects\Redirector
+    public function submit(): void
     {
         $post = $this->form->update($this->post, $this->postDetails);
 
-        return redirect(route('posts.edit', [
-            'post' => $post->id,
-            'platform' => $this->platform,
-        ]));
+        $this->toast(type: 'success', title: 'Post is updated!', position: 'toast-top toast-end', timeout: 4000);
     }
 }; ?>
 
