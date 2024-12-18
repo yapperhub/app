@@ -3,6 +3,7 @@
         <x-slot name="header">
             <x-h2-heading>Create Post</x-h2-heading>
         </x-slot>
+
         <livewire:posts.create />
     </div>
 </x-app-layout>

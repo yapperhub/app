@@ -13,7 +13,6 @@
                 <li>
                     <a rel="noopener noreferrer" href="{{ route('privacy') }}" wire:navigate>Privacy</a>
                 </li>
-
                 <li>
                     <x-mary-theme-toggle />
                 </li>

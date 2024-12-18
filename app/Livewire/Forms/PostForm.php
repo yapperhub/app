@@ -43,11 +43,12 @@ class PostForm extends Form
 
         try {
             $yapperHubPlatform = $this->getPlatform();
+            $slug = Str::slug($this->title);
 
             $post = Post::query()->create([
                 'title' => $this->title,
-                'canonical_url' => $this->canonical_url,
-                'slug' => Str::slug($this->title),
+                'canonical_url' => empty($this->canonical_url) ? $this->createPostUrl($slug) : $this->canonical_url,
+                'slug' => $slug,
                 'user_id' => auth()->id(),
             ]);
 
@@ -74,7 +75,7 @@ class PostForm extends Form
     /**
      * @throws ValidationException
      */
-    public function update()
+    public function update(): void
     {
         $this->validate();
 

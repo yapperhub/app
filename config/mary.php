@@ -34,7 +34,7 @@ return [
     'route_prefix' => '',
 
     /**
-     * Components settings
+     * Component's settings
      */
     'components' => [
         'spotlight' => [
