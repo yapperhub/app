@@ -1,5 +1,6 @@
 <?php
 
+use App\Concerns\Constants;
 use App\Livewire\Forms\PostForm;
 use Livewire\Volt\Component;
 
@@ -11,7 +12,12 @@ new class extends Component
     {
         $post = $this->form->store();
 
-        return redirect(route('posts.edit', $post->id));
+        return redirect(
+            route('posts.edit', [
+                'post' => $post->id,
+                'platform' => Constants::YAPPER_HUB_PLATFORM_SLUG,
+            ]),
+        );
     }
 }; ?>
 

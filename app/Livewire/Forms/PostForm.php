@@ -75,18 +75,43 @@ class PostForm extends Form
         }
     }
 
-    public function setPublished(): void
-    {
-        $this->isPublished = true;
-    }
-
     /**
      * @throws ValidationException
+     * @throws Exception
      */
-    public function update(): void
+    public function update(Post $post, PostDetail $postDetail): Post
     {
         $this->validate();
 
-        // Update the post...
+        DB::beginTransaction();
+
+        try {
+            $yapperHubPlatform = $this->getPlatform(request()->route('platform'));
+            $slug = Str::slug($this->title);
+
+            $post->update([
+                'title' => $this->title,
+                'canonical_url' => empty($this->canonical_url) ? $this->createPostUrl($slug) : $this->canonical_url,
+                'slug' => $slug,
+            ]);
+
+            $postDetail->update([
+                'excerpt' => $this->excerpt,
+                'featured_image' => $this->featured_image,
+                'content' => $this->content,
+                'platform_id' => $yapperHubPlatform->id,
+                'published_at' => $this->isPublished ? now() : null,
+            ]);
+
+            DB::commit();
+
+            return $post;
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw new Exception($e->getMessage());
+        } catch (Throwable $e) {
+            DB::rollBack();
+            throw new Exception($e->getMessage());
+        }
     }
 }

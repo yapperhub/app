@@ -36,7 +36,7 @@
             <x-mary-checkbox wire:model="form.isPublished" class="self-start">
                 <x-slot:label>
                     <strong>Publish Post</strong>
-                </x-slot:label>
+                </x-slot>
             </x-mary-checkbox>
         </div>
     </div>

@@ -18,10 +18,12 @@ return new class extends Migration
         });
 
         Schema::create('post_details', function (Blueprint $table) {
-            $table->uuid('post_id')->primary();
+            $table->uuid('id')->primary();
+
+            $table->uuid('post_id');
             $table->foreign('post_id')->references('id')->on('posts')->cascadeOnDelete();
 
-            $table->uuid('platform_id')->nullable();
+            $table->uuid('platform_id');
             $table->foreign('platform_id')->references('id')->on('platforms')->cascadeOnDelete();
 
             $table->text('content');
