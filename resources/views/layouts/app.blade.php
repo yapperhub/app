@@ -17,6 +17,11 @@
         <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
 
         <meta name="color-scheme" content="light only" />
+
+        {{-- Flatpickr --}}
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
@@ -40,6 +45,6 @@
         </div>
         @include('partials.footer')
 
-        <x-mary-toast />
+        <x-mary-toast position="toast-top toast-end" timeout="4000" />
     </body>
 </html>

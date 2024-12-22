@@ -31,6 +31,14 @@ class PostForm extends Form
     #[Validate('required|string')]
     public string $content = '';
 
+    #[Validate('nullable|date')]
+    public $published_at = null;
+
+    public function publish(PostDetail $postDetails): void
+    {
+        $postDetails->update(['published_at' => $this->published_at]);
+    }
+
     /**
      * @throws ValidationException
      * @throws Exception
@@ -78,7 +86,7 @@ class PostForm extends Form
      * @throws ValidationException
      * @throws Exception
      */
-    public function store()
+    public function store(): Post
     {
         $this->validate();
 
@@ -118,5 +126,10 @@ class PostForm extends Form
             DB::rollBack();
             throw new Exception($e->getMessage());
         }
+    }
+
+    public function unpublish(PostDetail $postDetails): void
+    {
+        $postDetails->update(['published_at' => null]);
     }
 }
