@@ -82,7 +82,7 @@
         {{-- <x-mary-file wire:model="form.image" hint="Featured Image for the post." accept="image/png, image/jpeg" class="mt-2" /> --}}
 
         <x-mary-file wire:model="form.image" accept="image/png, image/jpeg" class="mt-2">
-            <img src="{{ $form->image ?? '/img/fimg.jpg' }}" class="max-w-xl rounded-lg" alt="featured image." />
+            <img src="{{ $this->image_url ?? '/img/fimg.jpg' }}" class="max-w-xl rounded-lg" alt="featured image." />
         </x-mary-file>
 
         {{--

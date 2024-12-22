@@ -51,21 +51,22 @@ new class extends Component
                     class="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-center sm:space-x-4 sm:space-y-0 lg:justify-start"
                 >
                     @if (! auth()->check())
-                        <div class="flex w-full flex-row">
-                            <input
-                                wire:model="email"
-                                type="email"
-                                placeholder="example@email.com"
-                                class="w-4/5 rounded-l-lg p-3 sm:w-3/4"
-                            />
-                            <button
-                                type="button"
-                                wire:click="handle"
-                                class="w-1/5 rounded-r-lg bg-sky-600 p-3 font-semibold text-gray-50 sm:w-1/4"
-                            >
-                                Get Started
-                            </button>
-                        </div>
+                        <form wire:submit.prevent="handle" class="flex w-full flex-col">
+                            <div class="flex w-full flex-row">
+                                <input
+                                    wire:model="email"
+                                    type="email"
+                                    placeholder="example@email.com"
+                                    class="w-4/5 rounded-l-lg p-3 sm:w-3/4"
+                                />
+                                <button
+                                    type="submit"
+                                    class="w-1/5 rounded-r-lg bg-sky-600 p-3 font-semibold text-gray-50 sm:w-1/4"
+                                >
+                                    Get Started
+                                </button>
+                            </div>
+                        </form>
                     @else
                         <a
                             rel="noopener noreferrer"

@@ -5,11 +5,12 @@ use App\Models\Post;
 use App\Models\PostDetail;
 use JetBrains\PhpStorm\NoReturn;
 use Livewire\Volt\Component;
+use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
 
 new class extends Component
 {
-    use Toast;
+    use Toast, WithFileUploads;
 
     public PostForm $form;
 
@@ -18,6 +19,8 @@ new class extends Component
     public PostDetail $postDetails;
 
     public string $platform;
+
+    public string $image_url = '';
 
     #[NoReturn]
     public function mount(): void
@@ -28,7 +31,7 @@ new class extends Component
 
         $this->form->title = $this->post->title;
         $this->form->excerpt = $this->postDetails->excerpt;
-        $this->form->image = url('storage/' . $this->postDetails->featured_image);
+        $this->image_url = url('storage/' . $this->postDetails->featured_image);
         $this->form->canonical_url = $this->post->canonical_url;
         $this->form->isPublished = $this->postDetails->isPublished();
         $this->form->content = $this->postDetails->content;

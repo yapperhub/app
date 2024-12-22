@@ -37,32 +37,29 @@ class PostForm extends Form
      * @throws ValidationException
      * @throws Exception
      */
-    public function store()
+    public function update(Post $post, PostDetail $postDetail): Post
     {
         $this->validate();
 
         DB::beginTransaction();
 
         try {
-            $yapperHubPlatform = $this->getPlatform();
+            $yapperHubPlatform = $this->getPlatform(request()->route('platform'));
             $slug = Str::slug($this->title);
 
-            $post = Post::query()->create([
+            $post->update([
                 'title' => $this->title,
                 'canonical_url' => empty($this->canonical_url) ? $this->createPostUrl($slug) : $this->canonical_url,
                 'slug' => $slug,
-                'user_id' => auth()->id(),
             ]);
 
-            $featuredImageUrl = null;
-            if (! empty($this->image)) {
+            if ($this->image) {
                 $featuredImageUrl = $this->image->store('images/posts', 'public');
+                $postDetail->update(['featured_image' => $featuredImageUrl]);
             }
 
-            PostDetail::query()->create([
-                'post_id' => $post->id,
+            $postDetail->update([
                 'excerpt' => $this->excerpt,
-                'featured_image' => $featuredImageUrl,
                 'content' => $this->content,
                 'platform_id' => $yapperHubPlatform->id,
                 'published_at' => $this->isPublished ? now() : null,
@@ -84,25 +81,32 @@ class PostForm extends Form
      * @throws ValidationException
      * @throws Exception
      */
-    public function update(Post $post, PostDetail $postDetail): Post
+    public function store()
     {
         $this->validate();
 
         DB::beginTransaction();
 
         try {
-            $yapperHubPlatform = $this->getPlatform(request()->route('platform'));
+            $yapperHubPlatform = $this->getPlatform();
             $slug = Str::slug($this->title);
 
-            $post->update([
+            $post = Post::query()->create([
                 'title' => $this->title,
                 'canonical_url' => empty($this->canonical_url) ? $this->createPostUrl($slug) : $this->canonical_url,
                 'slug' => $slug,
+                'user_id' => auth()->id(),
             ]);
 
-            $postDetail->update([
+            $featuredImageUrl = null;
+            if ($this->image) {
+                $featuredImageUrl = $this->image->store('images/posts', 'public');
+            }
+
+            PostDetail::query()->create([
+                'post_id' => $post->id,
                 'excerpt' => $this->excerpt,
-                'featured_image' => $this->featured_image,
+                'featured_image' => $featuredImageUrl,
                 'content' => $this->content,
                 'platform_id' => $yapperHubPlatform->id,
                 'published_at' => $this->isPublished ? now() : null,
