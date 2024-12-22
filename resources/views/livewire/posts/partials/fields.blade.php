@@ -10,16 +10,18 @@
             <x-text-area id="excerpt" name="form.excerpt" type="text" wire:model="form.excerpt" class="w-full" />
         </div>
 
-        {{--<div class="space-y-1">
+        {{--
+            <div class="space-y-1">
             <x-input-label for="featured-image" required="{{ false }}">Featured Image</x-input-label>
             <x-text-input
-                id="featured-image"
-                name="form.featured_image"
-                type="url"
-                wire:model="form.featured_image"
-                class="w-full"
+            id="featured-image"
+            name="form.featured_image"
+            type="url"
+            wire:model="form.featured_image"
+            class="w-full"
             />
-        </div>--}}
+            </div>
+        --}}
 
         <div class="space-y-1">
             <x-input-label for="canonical-url" required="{{ false }}">Canonical Url</x-input-label>
@@ -41,43 +43,54 @@
         </div>
     </div>
     <div class="ml-12 w-1/2">
-        {{--<x-h2-heading>Editor Basics</x-h2-heading>
-        <div class="flex flex-row gap-5">
+        {{--
+            <x-h2-heading>Editor Basics</x-h2-heading>
+            <div class="flex flex-row gap-5">
             <div class="w-7/12 space-y-4">
-                <div class="mt-6 space-y-4">
-                    <p>Use Markdown to format your post.</p>
-                    <p>
-                        The tool bar above the editor can also help you format your post but is not limited to the
-                        available options.
-                    </p>
-                    <p>Here are some basic examples on the side:</p>
-                    <p>
-                        For more advanced formatting, check out the
-                        <a href="https://www.markdownguide.org/cheat-sheet" target="_blank" class="text-blue-500">
-                            Markdown Guide
-                        </a>
-                        .
-                    </p>
-                </div>
+            <div class="mt-6 space-y-4">
+            <p>Use Markdown to format your post.</p>
+            <p>
+            The tool bar above the editor can also help you format your post but is not limited to the
+            available options.
+            </p>
+            <p>Here are some basic examples on the side:</p>
+            <p>
+            For more advanced formatting, check out the
+            <a href="https://www.markdownguide.org/cheat-sheet" target="_blank" class="text-blue-500">
+            Markdown Guide
+            </a>
+            .
+            </p>
+            </div>
             </div>
             <div class="">
-                <div class="mt-6 space-y-4">
-                    <ul class="list-inside list-disc">
-                        <li>**bold text**</li>
-                        <li>*italic text*</li>
-                        <li>[link text](https://example.com)</li>
-                        <li>![image alt text](https://example.com/image.jpg)</li>
-                        <li># Heading 1 and ## Heading 2 and so on</li>
-                    </ul>
-                </div>
+            <div class="mt-6 space-y-4">
+            <ul class="list-inside list-disc">
+            <li>**bold text**</li>
+            <li>*italic text*</li>
+            <li>[link text](https://example.com)</li>
+            <li>![image alt text](https://example.com/image.jpg)</li>
+            <li># Heading 1 and ## Heading 2 and so on</li>
+            </ul>
             </div>
-        </div>
-        <hr class="mt-3 mb-3" />--}}
+            </div>
+            </div>
+            <hr class="mt-3 mb-3" />
+        --}}
 
-        <x-input-label for="featured-image" required="{{ false }}">Featured Image</x-input-label>
-        <x-mary-file wire:model="form.featured_image" accept="image/png, image/jpeg" class="mt-2">
-            <img src="{{ $user->avatar ?? '/img/fimg.jpg' }}" class="max-w-xl rounded-lg" alt="featured image." />
+        <x-input-label for="image" required="{{ false }}">Featured Image</x-input-label>
+        {{-- <x-mary-file wire:model="form.image" hint="Featured Image for the post." accept="image/png, image/jpeg" class="mt-2" /> --}}
+
+        <x-mary-file wire:model="form.image" accept="image/png, image/jpeg" class="mt-2">
+            <img src="{{ $form->image ?? '/img/fimg.jpg' }}" class="max-w-xl rounded-lg" alt="featured image." />
         </x-mary-file>
+
+        {{--
+            <input type="file" wire:model="form.featured_image" id="featured-image" name="featured_image">
+            @error('featured_image')
+            <x-input-error :messages="$errors->first('featured-image')" />
+            @enderror
+        --}}
     </div>
 </div>
 <div class="mt-6 space-y-1">

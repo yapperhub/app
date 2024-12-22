@@ -22,8 +22,8 @@ class PostForm extends Form
     #[Validate('required|string|max:255')]
     public string $excerpt = '';
 
-    #[Validate('nullable|image|max:3072')] // 3MB max
-    public string $featured_image = '';
+    #[Validate('nullable|sometimes|image|max:3072')] // 3MB
+    public $image;
 
     #[Validate('nullable|url')]
     public string $canonical_url = '';
@@ -55,8 +55,8 @@ class PostForm extends Form
             ]);
 
             $featuredImageUrl = null;
-            if (! empty($this->featured_image)) {
-                $featuredImageUrl = $this->featured_image->store('featured_images', 'public');
+            if (! empty($this->image)) {
+                $featuredImageUrl = $this->image->store('images/posts', 'public');
             }
 
             PostDetail::query()->create([

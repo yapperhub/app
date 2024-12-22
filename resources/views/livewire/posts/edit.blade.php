@@ -28,7 +28,7 @@ new class extends Component
 
         $this->form->title = $this->post->title;
         $this->form->excerpt = $this->postDetails->excerpt;
-        $this->form->featured_image = $this->postDetails->featured_image;
+        $this->form->image = url('storage/' . $this->postDetails->featured_image);
         $this->form->canonical_url = $this->post->canonical_url;
         $this->form->isPublished = $this->postDetails->isPublished();
         $this->form->content = $this->postDetails->content;
@@ -43,7 +43,7 @@ new class extends Component
 }; ?>
 
 <div>
-    <link rel="stylesheet" href="./partials/preview.css" />
+    <link rel="stylesheet" href="{{ url('css/editor-preview.css') }}" />
 
     <form wire:submit.prevent="submit">
         <div class="container mx-auto mt-4 text-lg">
