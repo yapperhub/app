@@ -31,8 +31,6 @@ new class extends Component
 }; ?>
 
 <div>
-    <link rel="stylesheet" href="{{ url('css/editor-preview.css') }}" />
-
     <form wire:submit.prevent="submit" enctype="multipart/form-data" method="post">
         <div class="container mx-auto mt-4 text-lg">
             @include('livewire.posts.partials.fields')

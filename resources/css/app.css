@@ -4,3 +4,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#tags input {
+    @apply rounded-md h-8 mb-1
+}
+
+
+

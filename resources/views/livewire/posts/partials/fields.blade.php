@@ -18,11 +18,18 @@
                 class="w-full"
             />
         </div>
+        <div class="space-y-1">
+            <x-input-label for="tags" required="{{ false }}">Tags</x-input-label>
+            <x-mary-tags wire:model="form.tags"
+                         hint="Hit enter to create a new tag, tyr to keep it short and simple and not more than 3 tags per post."
+                         id="tags"
+                         class="border-gray-300 focus:border-sky-500 focus:ring-sky-500 rounded-md shadow-sm h-2" />
+        </div>
     </div>
     <div class="ml-12 w-1/2">
         <x-input-label for="image" required="{{ false }}">Featured Image</x-input-label>
         <x-mary-file wire:model="form.image" accept="image/png, image/jpeg" class="mt-2">
-            <img src="{{ $this->image_url ?? '/img/fimg.jpg' }}" class="max-h-64 rounded-lg" alt="featured image" />
+            <img src="{{ $this->image_url ?? '/img/fimg.jpg' }}" class="max-h-80 rounded-lg" alt="featured image" />
         </x-mary-file>
     </div>
 </div>

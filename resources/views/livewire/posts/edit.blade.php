@@ -38,6 +38,7 @@ new class extends Component
         $this->form->canonical_url = $this->post->canonical_url;
         $this->isPublished = $this->postDetails->isPublished();
         $this->form->content = $this->postDetails->content;
+        $this->form->tags = $this->post->tags->pluck('name')->toArray();
     }
 
     public function submit(): void
@@ -73,8 +74,6 @@ new class extends Component
 }; ?>
 
 <div>
-    <link rel="stylesheet" href="{{ url('css/editor-preview.css') }}" />
-
     <form wire:submit.prevent="submit">
         <div class="container mx-auto mt-4 text-lg">
             @include('livewire.posts.partials.fields')
@@ -97,6 +96,7 @@ new class extends Component
         </div>
     </form>
 
+    {{--Modal for publish action.--}}
     <x-mary-modal wire:model="publishModal" title="Publish" subtitle="Publish Post" separator>
         <div>
             <x-mary-datepicker
@@ -113,6 +113,7 @@ new class extends Component
         </x-slot>
     </x-mary-modal>
 
+    {{--Modal for unpublish action.--}}
     <x-mary-modal wire:model="unPublishModal" title="Unpublish" subtitle="Unpublish Post" separator>
         <div><p>Are you sure you want to unpublish this post?</p></div>
         <x-slot:actions>
