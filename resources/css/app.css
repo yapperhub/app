@@ -6,8 +6,5 @@
 @tailwind utilities;
 
 #tags input {
-    @apply rounded-md h-8 mb-1
+    @apply mb-1 h-8 rounded-md;
 }
-
-
-

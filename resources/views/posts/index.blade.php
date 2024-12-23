@@ -3,8 +3,7 @@
         <x-slot name="header">
             <x-h2-heading>Posts</x-h2-heading>
         </x-slot>
-        <div class="float-end">
-            <x-primary-link href="{{ route('posts.create') }}">Create Post</x-primary-link>
-        </div>
+
+        <livewire:posts.index />
     </div>
 </x-app-layout>

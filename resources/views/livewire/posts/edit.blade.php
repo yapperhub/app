@@ -96,7 +96,7 @@ new class extends Component
         </div>
     </form>
 
-    {{--Modal for publish action.--}}
+    {{-- Modal for publish action. --}}
     <x-mary-modal wire:model="publishModal" title="Publish" subtitle="Publish Post" separator>
         <div>
             <x-mary-datepicker
@@ -113,7 +113,7 @@ new class extends Component
         </x-slot>
     </x-mary-modal>
 
-    {{--Modal for unpublish action.--}}
+    {{-- Modal for unpublish action. --}}
     <x-mary-modal wire:model="unPublishModal" title="Unpublish" subtitle="Unpublish Post" separator>
         <div><p>Are you sure you want to unpublish this post?</p></div>
         <x-slot:actions>
