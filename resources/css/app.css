@@ -8,3 +8,7 @@
 #tags input {
     @apply mb-1 h-8 rounded-md;
 }
+
+.mary-table-pagination select {
+    @apply h-10;
+}

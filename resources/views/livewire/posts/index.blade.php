@@ -8,10 +8,14 @@ new class extends Component
 {
     use WithPagination;
 
+    public int $perPage = 20;
+
     public function with(): array
     {
         return [
-            'posts' => Post::query()->where('user_id', auth()->id())->latest()->paginate(2),
+            'posts' => Post::query()->where('user_id', auth()->id())->latest()
+                ->when(request('q'), fn ($query, $q) => $query->where('title', 'like', "%$q%"))
+                ->paginate($this->perPage),
             'headers' => [
                 ['key' => 'title', 'label' => 'Title'],
             ],
@@ -31,7 +35,11 @@ new class extends Component
         <x-primary-link href="{{ route('posts.create') }}">Create Post</x-primary-link>
     </div>
 
-    <x-mary-table :headers="$headers" :rows="$posts" no-headers with-pagination class="">
+    <x-mary-table :headers="$headers" :rows="$posts"
+                  per-page="perPage"
+                  :per-page-values="[20, 30, 50, 100]"
+                  no-headers with-pagination
+    >
         @scope('cell_title', $post)
         <div class="border-b-2 pb-2 hover:bg-gray-50 p-3 flex justify-between items-center">
             <div>
