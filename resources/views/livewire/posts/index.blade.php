@@ -50,8 +50,11 @@ new class extends Component
                     {{ $post->id }} | {{ $post->canonical_url }}
                 </div>
             </div>
+
             <div class="mr-12">
-                <a href="#" class="">
+                <a
+                    wire:navigate
+                    href="{{ route('posts.show', ['post' => $post->id]) }}" class="">
                     <img src="{{ asset('img/see.png') }}" alt="see" class="h-10" title="Details">
                 </a>
             </div>
