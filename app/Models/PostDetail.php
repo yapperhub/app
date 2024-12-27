@@ -19,6 +19,10 @@ class PostDetail extends Model
 
     protected $keyType = 'string';
 
+    protected $casts = [
+        'published_at' => 'datetime',
+    ];
+
     public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class, 'post_id', 'id');
@@ -27,5 +31,10 @@ class PostDetail extends Model
     public function isPublished(): bool
     {
         return $this->published_at !== null;
+    }
+
+    public function platform(): BelongsTo
+    {
+        return $this->belongsTo(Platform::class, 'platform_id', 'id');
     }
 }

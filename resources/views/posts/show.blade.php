@@ -3,5 +3,7 @@
         <x-slot name="header">
             <x-h2-heading>Post Details</x-h2-heading>
         </x-slot>
+
+        <livewire:posts.show />
     </div>
 </x-app-layout>
