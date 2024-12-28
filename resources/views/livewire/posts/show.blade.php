@@ -48,9 +48,9 @@ new class extends Component
             @endforeach
         </div>
         <x-mary-button
-                label="Delete"
-                @click="$wire.deleteModal = true"
-                class="btn-sm ml-2 bg-red-500 text-white hover:bg-black"
+            label="Delete"
+            @click="$wire.deleteModal = true"
+            class="btn-sm ml-2 bg-red-500 text-white hover:bg-black"
         />
     </div>
 
@@ -63,9 +63,9 @@ new class extends Component
                 <div class="flex flex-row items-center justify-between gap-5">
                     <div class="flex flex-row items-center gap-5">
                         <img
-                                src="{{ url('storage/' . $details->featured_image) }}"
-                                alt="{{ $post->title }}"
-                                class="h-20 w-20 rounded-full object-cover"
+                            src="{{ url('storage/' . $details->featured_image) }}"
+                            alt="{{ $post->title }}"
+                            class="h-20 w-20 rounded-full object-cover"
                         />
 
                         <div class="mt-4 flex flex-col">
@@ -83,9 +83,9 @@ new class extends Component
                     </div>
 
                     <x-primary-link
-                            wire:navigate
-                            href="{{ route('posts.edit', ['post' => $post->id, 'platform' => $details->platform->slug]) }}"
-                            class="btn btn-primary btn-sm mt-3 w-1/12 text-white"
+                        wire:navigate
+                        href="{{ route('posts.edit', ['post' => $post->id, 'platform' => $details->platform->slug]) }}"
+                        class="btn btn-primary btn-sm mt-3 w-1/12 text-white"
                     >
                         Edit
                     </x-primary-link>
