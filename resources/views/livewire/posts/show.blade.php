@@ -48,9 +48,9 @@ new class extends Component
             @endforeach
         </div>
         <x-mary-button
-            label="Delete"
-            @click="$wire.deleteModal = true"
-            class="btn-sm ml-2 bg-red-500 text-white hover:bg-black"
+                label="Delete"
+                @click="$wire.deleteModal = true"
+                class="btn-sm ml-2 bg-red-500 text-white hover:bg-black"
         />
     </div>
 
@@ -60,29 +60,32 @@ new class extends Component
                 <h2 class="text-xl font-semibold text-gray-900">{{ $details->platform->name }}</h2>
                 <hr class="mb-2 mt-2" />
 
-                <div class="flex flex-row items-center gap-5">
-                    <img
-                        src="{{ url('storage/' . $details->featured_image) }}"
-                        alt="{{ $post->title }}"
-                        class="h-20 w-20 rounded-full object-cover"
-                    />
+                <div class="flex flex-row items-center justify-between gap-5">
+                    <div class="flex flex-row items-center gap-5">
+                        <img
+                                src="{{ url('storage/' . $details->featured_image) }}"
+                                alt="{{ $post->title }}"
+                                class="h-20 w-20 rounded-full object-cover"
+                        />
 
-                    <div class="mt-4 flex flex-col">
-                        <span class="mb-2">
-                            @if ($details->isPublished())
-                                <x-mary-badge value="Published" class="badge-primary" />
-                                {!! $details->published_at->format('F j, Y') !!}
-                            @else
-                                <x-mary-badge value="Draft" class="badge-warning" />
-                            @endif
-                        </span>
-                        <span>{!! $details->excerpt !!}</span>
-                        <span>updated at: {!! $details->updated_at->format('F j, Y') !!}</span>
+                        <div class="mt-4 flex flex-col">
+                            <span class="mb-2">
+                                @if ($details->isPublished())
+                                    <x-mary-badge value="Published" class="badge-primary" />
+                                    {!! $details->published_at->format('F j, Y') !!}
+                                @else
+                                    <x-mary-badge value="Draft" class="badge-warning" />
+                                @endif
+                            </span>
+                            <span>{!! $details->excerpt !!}</span>
+                            <span>updated at: {!! $details->updated_at->format('F j, Y') !!}</span>
+                        </div>
                     </div>
+
                     <x-primary-link
-                        wire:navigate
-                        href="{{ route('posts.edit', ['post' => $post->id, 'platform' => $details->platform->slug]) }}"
-                        class="btn btn-primary btn-sm mt-3 w-1/12 text-white"
+                            wire:navigate
+                            href="{{ route('posts.edit', ['post' => $post->id, 'platform' => $details->platform->slug]) }}"
+                            class="btn btn-primary btn-sm mt-3 w-1/12 text-white"
                     >
                         Edit
                     </x-primary-link>

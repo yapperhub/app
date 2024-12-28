@@ -17,6 +17,7 @@ new class extends Component
                 ->where('user_id', auth()->id())
                 ->latest()
                 ->when(request('q'), fn ($query, $q) => $query->where('title', 'like', "%$q%"))
+                ->with('tags')
                 ->paginate($this->perPage),
             'headers' => [['key' => 'title', 'label' => 'Title']],
         ];
@@ -54,7 +55,12 @@ new class extends Component
                     <div class="text-2xl">
                         {{ $post->title }}
                     </div>
-                    <div class="mt-2">{{ $post->id }} | {{ $post->canonical_url }}</div>
+                    <div class="mt-2 mb-3">{{ $post->id }} | {{ $post->canonical_url }}</div>
+                    @foreach ($post->tags as $tag)
+                        <span class="mr-2 inline-block rounded-full bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700">
+                            {{ $tag->name }}
+                        </span>
+                    @endforeach
                 </div>
 
                 <div class="mr-12">
