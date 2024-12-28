@@ -40,7 +40,9 @@ new class extends Component
             </div>
 
             <!-- Settings Dropdown -->
+
             <div class="hidden sm:ms-6 sm:flex sm:items-center">
+                <x-primary-link href="{{ route('posts.create') }}" class="mr-12 text-white">Create Post</x-primary-link>
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button

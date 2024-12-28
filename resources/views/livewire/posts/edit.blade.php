@@ -83,13 +83,13 @@ new class extends Component
                     <x-mary-button
                         label="Unpublish"
                         @click="$wire.unPublishModal = true"
-                        class="ml-2 bg-red-500 text-white hover:bg-black"
+                        class="btn-sm ml-2 bg-red-500 text-white hover:bg-black"
                     />
                 @else
                     <x-mary-button
                         label="Publish"
                         @click="$wire.publishModal = true"
-                        class="ml-2 bg-primary text-white hover:bg-black"
+                        class="btn-sm ml-2 bg-primary text-white hover:bg-black"
                     />
                 @endif
             </div>
