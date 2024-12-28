@@ -33,6 +33,11 @@ class PostDetail extends Model
         return $this->published_at !== null;
     }
 
+    public function scopeIsPublished($query)
+    {
+        return $query->whereNotNull('published_at');
+    }
+
     public function platform(): BelongsTo
     {
         return $this->belongsTo(Platform::class, 'platform_id', 'id');
