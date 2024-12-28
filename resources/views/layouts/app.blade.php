@@ -11,6 +11,17 @@
         <link rel="preconnect" href="https://fonts.bunny.net" />
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+        <meta name="csrf-token" content="{{ csrf_token() }}" />
+
+        {{-- EasyMDE --}}
+        <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+
+        <meta name="color-scheme" content="light only" />
+
+        {{-- Flatpickr --}}
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
@@ -19,21 +30,21 @@
             <livewire:layout.navigation />
 
             <!-- Page Heading -->
-            {{--
-                @if (isset($header))
-                <header class="bg-white shadow">
-                <div class="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
-                {{ $header }}
-                </div>
+            @if (isset($header))
+                <header class="bg-white shadow dark:bg-black">
+                    <div class="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
+                        {{ $header }}
+                    </div>
                 </header>
-                @endif
-            --}}
+            @endif
 
             <!-- Page Content -->
-            <main>
+            <main class="p-8">
                 {{ $slot }}
             </main>
         </div>
         @include('partials.footer')
+
+        <x-mary-toast position="toast-top toast-end" timeout="4000" />
     </body>
 </html>

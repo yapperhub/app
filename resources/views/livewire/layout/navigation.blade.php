@@ -33,11 +33,16 @@ new class extends Component
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('posts')" :active="request()->routeIs('post*')" wire:navigate>
+                        {{ __('Posts') }}
+                    </x-nav-link>
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
+
             <div class="hidden sm:ms-6 sm:flex sm:items-center">
+                <x-primary-link href="{{ route('posts.create') }}" class="mr-12 text-white">Create Post</x-primary-link>
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
@@ -114,6 +119,9 @@ new class extends Component
         <div class="space-y-1 pb-3 pt-2">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('posts')" :active="request()->routeIs('posts')" wire:navigate>
+                {{ __('Posts') }}
             </x-responsive-nav-link>
         </div>
 
