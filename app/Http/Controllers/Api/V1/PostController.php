@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Concerns\Constants;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PostContentResource;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -10,7 +13,7 @@ use Illuminate\Http\Request;
 class PostController extends Controller
 {
     /**
-     * List all posts.
+     * List posts.
      */
     public function index(Request $request): JsonResponse
     {
@@ -18,13 +21,15 @@ class PostController extends Controller
             'per_page' => ['integer', 'nullable', 'min:1', 'max:50'],
             'page' => ['integer', 'nullable', 'min:1'],
             'status' => ['string', 'nullable', 'in:draft,published'],
+            'query' => ['string', 'nullable'],
         ]);
 
-        $perPage = request('per_page', 20);
+        $perPage = request('per_page', Constants::PER_PAGE);
         $page = request('page', 1);
         $status = request('status');
+        $query = request('query');
 
-        $posts = Post::query()->where('user_id', auth()->id())->with('content');
+        $posts = Post::query()->where('user_id', auth()->id())->with(['content', 'tags']);
 
         if ($status === 'draft') {
             $posts->whereHas('content', function ($query): void {
@@ -39,19 +44,22 @@ class PostController extends Controller
             });
         }
 
-        return response()->json([
-            'message' => 'List of all posts',
-            'payload' => $posts->paginate($perPage, ['*'], 'page', $page),
-        ]);
+        if ($query) {
+            $posts->where('title', 'like', "%$query%");
+        }
+
+        $post = $posts->paginate($perPage, ['*'], 'page', $page);
+
+        return response()->json(PostResource::collection($post));
     }
 
     /**
-     * Show a post.
+     * Show post.
      */
     public function show(Post $post): JsonResponse
     {
-        return response()->json([
-            'message' => 'Hello World',
-        ]);
+        $post->load('content', 'tags');
+
+        return response()->json(new PostContentResource($post));
     }
 }
