@@ -4,7 +4,6 @@ namespace App\Livewire\Forms;
 
 use App\Models\Post;
 use App\Models\PostDetail;
-use App\Models\Tag;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -26,7 +25,7 @@ class PostForm extends Form
     #[Validate('nullable|sometimes|image|max:3072')] // 3MB
     public $image;
 
-    #[Validate('nullable|url')]
+    #[Validate('nullable|url|unique:posts,canonical_url')]
     public string $canonical_url = '';
 
     #[Validate('required|string')]
@@ -104,12 +103,12 @@ class PostForm extends Form
             $yapperHubPlatform = $this->getPlatform();
             $slug = Str::slug($this->title);
 
-            $post = Post::query()->create([
-                'title' => $this->title,
-                'canonical_url' => empty($this->canonical_url) ? $this->createPostUrl($slug) : $this->canonical_url,
-                'slug' => $slug,
-                'user_id' => auth()->id(),
-            ]);
+            $post = $this->createPost(
+                title: $this->title,
+                slug: $slug,
+                canonicalUrl: empty($this->canonical_url) ? $this->createPostUrl($slug) : $this->canonical_url,
+                userId: auth()->id()
+            );
 
             PostDetail::query()->create([
                 'post_id' => $post->id,
@@ -138,15 +137,5 @@ class PostForm extends Form
     public function unpublish(PostDetail $postDetails): void
     {
         $postDetails->update(['published_at' => null]);
-    }
-
-    private function tagNameToId(): array
-    {
-        $tagIds = [];
-        foreach ($this->tags as $tag) {
-            $tagIds[] = Tag::firstOrCreate(['name' => Str::slug($tag)])->id;
-        }
-
-        return $tagIds;
     }
 }

@@ -7,15 +7,22 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\PostContentResource;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
-use Illuminate\Http\JsonResponse;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 class PostController extends Controller
 {
+    use \App\Concerns\Post;
+
     /**
      * List posts.
      */
-    public function index(Request $request): JsonResponse
+    public function index(Request $request): AnonymousResourceCollection
     {
         $request->validate([
             'per_page' => ['integer', 'nullable', 'min:1', 'max:50'],
@@ -48,18 +55,61 @@ class PostController extends Controller
             $posts->where('title', 'like', "%$query%");
         }
 
-        $post = $posts->paginate($perPage, ['*'], 'page', $page);
-
-        return response()->json(PostResource::collection($post));
+        return PostResource::collection($posts->paginate($perPage, ['*'], 'page', $page));
     }
 
     /**
      * Show post.
      */
-    public function show(Post $post): JsonResponse
+    public function show(Post $post): PostContentResource
     {
         $post->load('content', 'tags');
 
-        return response()->json(new PostContentResource($post));
+        return new PostContentResource($post);
+    }
+
+    /**
+     * Store post.
+     *
+     * @throws Exception
+     */
+    public function store()
+    {
+        $data = request()->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'slug' => ['nullable', 'string', 'max:255'],
+            'canonical_url' => ['required', 'url', 'unique:posts,canonical_url'],
+            'content' => ['required', 'string'],
+            'tags' => ['array'],
+            'tags.*' => ['string'],
+            'featured_image' => ['image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+        ]);
+
+        if (empty($data['slug'])) {
+            $data['slug'] = Str::slug($data['title']);
+        }
+
+        if (Post::query()->where('user_id', auth()->id())->where('slug', $data['slug'])->exists()) {
+            return response()->json(['message' => 'Post already exists with same slug'], Response::HTTP_CONFLICT);
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $post = $this->createPost(
+                title: $data['title'],
+                slug: $data['slug'],
+                canonicalUrl: $data['canonical_url'],
+                userId: auth()->id(),
+            );
+
+            return response()->json(['message' => 'Post created successfully'], Response::HTTP_CREATED);
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw new Exception($e->getMessage());
+        } catch (Throwable $e) {
+            DB::rollBack();
+            throw new Exception($e->getMessage());
+        }
     }
 }
