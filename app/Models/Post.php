@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Concerns\Constants;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -30,6 +31,15 @@ class Post extends Model
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class, 'post_tag', 'post_id', 'tag_id');
+    }
+
+    public function content(): HasOne
+    {
+        return $this->hasOne(PostDetail::class, 'post_id', 'id')
+            ->where(
+                'platform_id',
+                fn ($query) => $query->select('id')->from('platforms')->where('slug', Constants::YAPPER_HUB_PLATFORM_SLUG)
+            );
     }
 
     public function platformDetails(string $platformSlug): HasOne

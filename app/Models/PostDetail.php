@@ -30,12 +30,12 @@ class PostDetail extends Model
 
     public function isPublished(): bool
     {
-        return $this->published_at !== null;
+        return $this->published_at !== null && $this->published_at <= now();
     }
 
     public function scopeIsPublished($query)
     {
-        return $query->whereNotNull('published_at');
+        return $query->whereNotNull('published_at')->where('published_at', '<=', now());
     }
 
     public function platform(): BelongsTo

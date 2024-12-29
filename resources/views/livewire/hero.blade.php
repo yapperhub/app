@@ -71,7 +71,7 @@ new class extends Component
                         <a
                             rel="noopener noreferrer"
                             href="{{ route('dashboard') }}"
-                            class="rounded bg-sky-600 px-8 py-3 text-lg font-semibold text-gray-50"
+                            class="btn btn-sm rounded bg-sky-600 text-lg font-semibold text-gray-50"
                             wire:navigate
                         >
                             Got to Dashboard
