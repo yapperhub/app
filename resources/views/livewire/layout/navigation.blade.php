@@ -77,6 +77,9 @@ new class extends Component
                         <x-dropdown-link :href="route('api-access')" wire:navigate>
                             {{ __('API Access') }}
                         </x-dropdown-link>
+                        <x-dropdown-link :href="route('scramble.docs.ui')">
+                            {{ __('API Docs') }}
+                        </x-dropdown-link>
 
                         <!-- Authentication -->
                         <button wire:click="logout" class="w-full text-start">
@@ -146,6 +149,9 @@ new class extends Component
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('api-access')" wire:navigate>
                     {{ __('API Access') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('scramble.docs.ui')">
+                    {{ __('API Docs') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->
