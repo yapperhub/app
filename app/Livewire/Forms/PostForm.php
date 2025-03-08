@@ -74,7 +74,7 @@ class PostForm extends Form
             ]);
 
             if (! empty($this->tags)) {
-                $post->tags()->sync($this->tagNameToId());
+                $post->tags()->sync($this->tagNameToId(tags: $this->tags));
             }
 
             DB::commit();
@@ -110,16 +110,16 @@ class PostForm extends Form
                 userId: auth()->id()
             );
 
-            PostDetail::query()->create([
-                'post_id' => $post->id,
-                'excerpt' => $this->excerpt,
-                'featured_image' => $this->image ? $this->image->store('images/posts', 'public') : null,
-                'content' => $this->content,
-                'platform_id' => $yapperHubPlatform->id,
-            ]);
+            $this->createPostDetails(
+                postId: $post->id,
+                content: $this->content,
+                platformId: $yapperHubPlatform->id,
+                excerpt: $this->excerpt,
+                featuredImage: $this->image ? $this->image->store('images/posts', 'public') : null
+            );
 
             if (! empty($this->tags)) {
-                $post->tags()->sync($this->tagNameToId());
+                $post->tags()->sync($this->tagNameToId(tags: $this->tags));
             }
 
             DB::commit();

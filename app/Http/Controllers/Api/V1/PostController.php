@@ -77,19 +77,23 @@ class PostController extends Controller
     {
         $data = request()->validate([
             'title' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255'],
             'canonical_url' => ['required', 'url', 'unique:posts,canonical_url'],
+            'excerpt' => ['required', 'string', 'max:255'],
             'content' => ['required', 'string'],
-            'tags' => ['array'],
+            'tags' => ['nullable', 'array'],
             'tags.*' => ['string'],
-            'featured_image' => ['image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            'featured_image' => ['nullable', 'url'],
         ]);
 
-        if (empty($data['slug'])) {
-            $data['slug'] = Str::slug($data['title']);
+        // This is redundant, as the validation rule `unique:posts,canonical_url` is already checking for the same.
+        // But it's better to have a check here as well.
+        if ($this->postExists(userId: auth()->id(), value: $data['canonical_url'], colum: 'canonical_url')) {
+            return response()->json(['message' => 'Post already exists with same canonical url'], Response::HTTP_CONFLICT);
         }
 
-        if ($this->postExists(slug: $data['slug'], userId: auth()->id())) {
+        $data['slug'] = Str::slug($data['title']);
+
+        if ($this->postExists(userId: auth()->id(), value: $data['slug'])) {
             return response()->json(['message' => 'Post already exists with same slug'], Response::HTTP_CONFLICT);
         }
 
@@ -102,6 +106,23 @@ class PostController extends Controller
                 canonicalUrl: $data['canonical_url'],
                 userId: auth()->id(),
             );
+
+            $yapperHubPlatform = $this->getPlatform();
+
+            $this->createPostDetails(
+                postId: $post->id,
+                content: $data['content'],
+                platformId: $yapperHubPlatform->id,
+                excerpt: $data['excerpt'] ?? null,
+                featuredImage: $data['featured_image'] ?? null,
+            );
+
+            $tags = $data['tags'] ?? [];
+            if (count($tags)) {
+                $post->tags()->sync($this->tagNameToId(tags: $tags));
+            }
+
+            DB::commit();
 
             return response()->json(['message' => 'Post created successfully', 'id' => $post->id], Response::HTTP_CREATED);
         } catch (Exception $e) {
