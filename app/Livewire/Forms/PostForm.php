@@ -4,7 +4,6 @@ namespace App\Livewire\Forms;
 
 use App\Models\Post;
 use App\Models\PostDetail;
-use App\Models\Tag;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -26,7 +25,7 @@ class PostForm extends Form
     #[Validate('nullable|sometimes|image|max:3072')] // 3MB
     public $image;
 
-    #[Validate('nullable|url')]
+    #[Validate('nullable|url|unique:posts,canonical_url,{{post->id}}')]
     public string $canonical_url = '';
 
     #[Validate('required|string')]
@@ -75,7 +74,7 @@ class PostForm extends Form
             ]);
 
             if (! empty($this->tags)) {
-                $post->tags()->sync($this->tagNameToId());
+                $post->tags()->sync($this->tagNameToId(tags: $this->tags));
             }
 
             DB::commit();
@@ -104,23 +103,23 @@ class PostForm extends Form
             $yapperHubPlatform = $this->getPlatform();
             $slug = Str::slug($this->title);
 
-            $post = Post::query()->create([
-                'title' => $this->title,
-                'canonical_url' => empty($this->canonical_url) ? $this->createPostUrl($slug) : $this->canonical_url,
-                'slug' => $slug,
-                'user_id' => auth()->id(),
-            ]);
+            $post = $this->createPost(
+                title: $this->title,
+                slug: $slug,
+                canonicalUrl: empty($this->canonical_url) ? $this->createPostUrl($slug) : $this->canonical_url,
+                userId: auth()->id()
+            );
 
-            PostDetail::query()->create([
-                'post_id' => $post->id,
-                'excerpt' => $this->excerpt,
-                'featured_image' => $this->image ? $this->image->store('images/posts', 'public') : null,
-                'content' => $this->content,
-                'platform_id' => $yapperHubPlatform->id,
-            ]);
+            $this->createPostDetails(
+                postId: $post->id,
+                content: $this->content,
+                platformId: $yapperHubPlatform->id,
+                excerpt: $this->excerpt,
+                featuredImage: $this->image ? $this->image->store('images/posts', 'public') : null
+            );
 
             if (! empty($this->tags)) {
-                $post->tags()->sync($this->tagNameToId());
+                $post->tags()->sync($this->tagNameToId(tags: $this->tags));
             }
 
             DB::commit();
@@ -138,15 +137,5 @@ class PostForm extends Form
     public function unpublish(PostDetail $postDetails): void
     {
         $postDetails->update(['published_at' => null]);
-    }
-
-    private function tagNameToId(): array
-    {
-        $tagIds = [];
-        foreach ($this->tags as $tag) {
-            $tagIds[] = Tag::firstOrCreate(['name' => Str::slug($tag)])->id;
-        }
-
-        return $tagIds;
     }
 }
