@@ -25,7 +25,7 @@ class PostForm extends Form
     #[Validate('nullable|sometimes|image|max:3072')] // 3MB
     public $image;
 
-    #[Validate('nullable|url|unique:posts,canonical_url')]
+    #[Validate('nullable|url|unique:posts,canonical_url,{{post->id}}')]
     public string $canonical_url = '';
 
     #[Validate('required|string')]
