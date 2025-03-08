@@ -16,7 +16,9 @@ new class extends Component
     #[NoReturn]
     public function mount(): void
     {
-        $this->post = Post::query()->with('details', 'details.platform', 'tags')->findOrFail(request()->route('post'));
+        $this->post = Post::query()
+            ->with('details', 'details.platform', 'tags')
+            ->findOrFail(request()->route('post'));
     }
 
     #[NoReturn]
@@ -40,7 +42,9 @@ new class extends Component
             <p class="mt-2 text-gray-600">{{ $post->created_at->format('F j, Y') }} | {{ $post->id }}</p>
             <p class="mb-2 text-gray-600">{{ $post->canonical_url }}</p>
             @foreach ($post->tags as $tag)
-                <span class="mr-2 inline-block rounded-full bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700">
+                <span
+                    class="mr-2 mt-4 inline-block rounded-full bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700"
+                >
                     {{ $tag->name }}
                 </span>
             @endforeach
@@ -61,7 +65,7 @@ new class extends Component
                 <div class="flex flex-row items-center justify-between gap-5">
                     <div class="flex flex-row items-center gap-5">
                         <img
-                            src="{{ url('storage/' . $details->featured_image) }}"
+                            src="{{ filter_var($details->featured_image, FILTER_VALIDATE_URL) ?  $details->featured_image : url('storage/' . $details->featured_image) }}"
                             alt="{{ $post->title }}"
                             class="h-20 w-20 rounded-full object-cover"
                         />

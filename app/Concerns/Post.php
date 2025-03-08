@@ -26,7 +26,7 @@ trait Post
         return $platform;
     }
 
-    public function createPostUrl(string $postSlug): \Illuminate\Foundation\Application
+    public function createPostUrl(string $postSlug): string
     {
         return url("post/{$postSlug}-{$this->uniqueString()}");
     }
@@ -55,13 +55,15 @@ trait Post
         string $title,
         string $slug,
         string $canonicalUrl,
-        int $userId
+        int $userId,
+        string $source = 'web',
     ) {
         return \App\Models\Post::query()->create([
             'title' => $title,
             'canonical_url' => $canonicalUrl,
             'slug' => $slug,
             'user_id' => $userId,
+            'source' => $source,
         ]);
     }
 

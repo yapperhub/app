@@ -17,7 +17,7 @@ class Post extends Model
 {
     use HasUuids;
 
-    protected $fillable = ['user_id', 'title', 'slug', 'canonical_url'];
+    protected $fillable = ['user_id', 'title', 'slug', 'canonical_url', 'source'];
 
     protected $primaryKey = 'id';
 

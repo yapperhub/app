@@ -18,7 +18,7 @@ new class extends Component
 }; ?>
 
 <div>
-    <div class="mb-12 flex justify-between">
+    <div class="mb-12 flex items-center justify-between">
         <div>
             <form class="flex items-center gap-3">
                 <input
@@ -43,27 +43,22 @@ new class extends Component
         with-pagination
     >
         @scope('cell_title', $post)
-        <div class="flex items-center justify-between border-b-2 p-3 pb-2">
-            <div>
-                <div class="text-2xl">
-                    {{ $post->title }}
+            <div class="flex items-center justify-between border-b-2 pb-5">
+                <div>
+                    <div class="text-2xl">{{ $post->title }}</div>
+                    <div class="mb-1 mt-2">{{ $post->id }}</div>
+                    <div class="mb-3 mt-2">{{ $post->canonical_url }}</div>
+                    @foreach ($post->tags as $tag)
+                        <span
+                            class="mr-2 mt-2 inline-block rounded-full bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700"
+                        >
+                            {{ $tag->name }}
+                        </span>
+                    @endforeach
                 </div>
-                <div class="mb-3 mt-2">{{ $post->id }} | {{ $post->canonical_url }}</div>
-                @foreach ($post->tags as $tag)
-                    <span
-                        class="mr-2 inline-block rounded-full bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700"
-                    >
-                        {{ $tag->name }}
-                    </span>
-                @endforeach
-            </div>
 
-            <div class="mr-12">
-                <x-secondary-link href="{{ route('posts.show', ['post' => $post->id]) }}" class="">
-                    Details
-                </x-secondary-link>
+                <x-secondary-link href="{{ route('posts.show', ['post' => $post->id]) }}">Details</x-secondary-link>
             </div>
-        </div>
         @endscope
     </x-mary-table>
 </div>

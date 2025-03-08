@@ -34,7 +34,9 @@ new class extends Component
 
         $this->form->title = $this->post->title;
         $this->form->excerpt = $this->postDetails->excerpt;
-        $this->image_url = url('storage/' . $this->postDetails->featured_image);
+        $this->image_url = filter_var($this->postDetails->featured_image, FILTER_VALIDATE_URL)
+            ? $this->postDetails->featured_image
+            : url('storage/' . $this->postDetails->featured_image);
         $this->form->canonical_url = $this->post->canonical_url;
         $this->isPublished = $this->postDetails->isPublished();
         $this->form->content = $this->postDetails->content;

@@ -100,6 +100,7 @@ class PostController extends Controller
                 slug: $data['slug'],
                 canonicalUrl: ! isset($data['canonical_url']) ? $this->createPostUrl($data['slug']) : $data['canonical_url'],
                 userId: auth()->id(),
+                source: 'api'
             );
 
             $yapperHubPlatform = $this->getPlatform();
