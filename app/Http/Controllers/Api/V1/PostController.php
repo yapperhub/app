@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
@@ -138,7 +139,7 @@ class PostController extends Controller
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'slug' => ['required', 'string', 'max:255'],
-            'canonical_url' => ['nullable', 'url', 'unique:posts,canonical_url,' . $post->id],
+            'canonical_url' => ['nullable', 'url', Rule::unique('posts', 'canonical_url')->ignore($post->id)],
             'excerpt' => ['required', 'string', 'max:255'],
             'content' => ['required', 'string'],
             'tags' => ['nullable', 'array'],
