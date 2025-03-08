@@ -1,21 +1,20 @@
 <?php
 
-use App\Models\Post;
-use App\Models\PostDetail;
+use App\Http\DataVault\ApiStatsVault;
+use App\Http\DataVault\PostVault;
 use Livewire\Volt\Component;
 
 new class extends Component
 {
-    public function with(): array
+    public array $apiStats;
+
+    public function with(ApiStatsVault $apiStatsVault, PostVault $postVault): array
     {
+        $this->apiStats = $apiStatsVault->chart(apiStatsArray: $apiStatsVault->handle(userId: auth()->id()));
+
         return [
-            'posts' => Post::query()
-                ->where('user_id', auth()->id())
-                ->count(),
-            'published_posts' => PostDetail::query()
-                ->whereHas('post', fn ($query) => $query->where('user_id', auth()->id()))
-                ->isPublished()
-                ->count(),
+            'posts' => $postVault->postCount(userId: auth()->id()),
+            'published_posts' => $postVault->publishedPostCount(userId: auth()->id()),
         ];
     }
 }; ?>
@@ -39,6 +38,9 @@ new class extends Component
                     tooltip="Total Published Posts on YapperHub"
                 />
             </div>
+        </div>
+        <div class="mt-4 w-3/12">
+            <x-mary-chart wire:model="apiStats" />
         </div>
     </div>
 </div>
