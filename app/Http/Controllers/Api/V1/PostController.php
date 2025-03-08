@@ -77,19 +77,13 @@ class PostController extends Controller
     {
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'canonical_url' => ['required', 'url', 'unique:posts,canonical_url'],
+            'canonical_url' => ['nullable', 'url', 'unique:posts,canonical_url'],
             'excerpt' => ['required', 'string', 'max:255'],
             'content' => ['required', 'string'],
             'tags' => ['nullable', 'array'],
             'tags.*' => ['string'],
             'featured_image' => ['nullable', 'url'],
         ]);
-
-        // This is redundant, as the validation rule `unique:posts,canonical_url` is already checking for the same.
-        // But it's better to have a check here as well.
-        if ($this->postExists(userId: auth()->id(), value: $data['canonical_url'], colum: 'canonical_url')) {
-            return response()->json(['message' => 'Post already exists with same canonical url'], Response::HTTP_CONFLICT);
-        }
 
         $data['slug'] = Str::slug($data['title']);
 
@@ -103,7 +97,7 @@ class PostController extends Controller
             $post = $this->createPost(
                 title: $data['title'],
                 slug: $data['slug'],
-                canonicalUrl: $data['canonical_url'],
+                canonicalUrl: ! isset($data['canonical_url']) ? $this->createPostUrl($data['slug']) : $data['canonical_url'],
                 userId: auth()->id(),
             );
 
@@ -125,6 +119,64 @@ class PostController extends Controller
             DB::commit();
 
             return response()->json(['message' => 'Post created successfully', 'id' => $post->id], Response::HTTP_CREATED);
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw new Exception($e->getMessage());
+        } catch (Throwable $e) {
+            DB::rollBack();
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * Update post.
+     *
+     * @throws Throwable
+     */
+    public function update(Post $post, Request $request)
+    {
+        $data = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'slug' => ['required', 'string', 'max:255'],
+            'canonical_url' => ['nullable', 'url', 'unique:posts,canonical_url,' . $post->id],
+            'excerpt' => ['required', 'string', 'max:255'],
+            'content' => ['required', 'string'],
+            'tags' => ['nullable', 'array'],
+            'tags.*' => ['string'],
+            'featured_image' => ['nullable', 'url'],
+        ]);
+
+        $postBySlug = Post::query()->where('slug', $data['slug'])->first();
+
+        if ($postBySlug && $postBySlug->id !== $post->id) {
+            return response()->json(['message' => 'Post already exists with same slug'], Response::HTTP_CONFLICT);
+        }
+
+        $post->load('content');
+
+        DB::beginTransaction();
+
+        try {
+            $post->update([
+                'title' => $data['title'],
+                'canonical_url' => ! isset($data['canonical_url']) ? $this->createPostUrl($data['slug']) : $data['canonical_url'],
+                'slug' => $data['slug'],
+            ]);
+
+            $post->content()->update([
+                'excerpt' => $data['excerpt'],
+                'content' => $data['content'],
+                'featured_image' => $data['featured_image'] ?? null,
+            ]);
+
+            $tags = $data['tags'] ?? [];
+            if (count($tags)) {
+                $post->tags()->sync($this->tagNameToId(tags: $tags));
+            }
+
+            DB::commit();
+
+            return response()->json(['message' => 'Post updated successfully', 'id' => $post->id], Response::HTTP_CREATED);
         } catch (Exception $e) {
             DB::rollBack();
             throw new Exception($e->getMessage());
