@@ -73,9 +73,9 @@ class PostController extends Controller
      * @throws Exception
      * @throws Throwable
      */
-    public function store()
+    public function store(Request $request)
     {
-        $data = request()->validate([
+        $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'canonical_url' => ['required', 'url', 'unique:posts,canonical_url'],
             'excerpt' => ['required', 'string', 'max:255'],
