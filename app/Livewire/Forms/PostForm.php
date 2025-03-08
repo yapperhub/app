@@ -7,8 +7,8 @@ use App\Models\PostDetail;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
-use Livewire\Attributes\Validate;
 use Livewire\Form;
 use Throwable;
 
@@ -16,25 +16,18 @@ class PostForm extends Form
 {
     use \App\Concerns\Post;
 
-    #[Validate('required|string|max:255')]
     public string $title = '';
 
-    #[Validate('required|string|max:255')]
     public string $excerpt = '';
 
-    #[Validate('nullable|sometimes|image|max:3072')] // 3MB
     public $image;
 
-    #[Validate('nullable|url|unique:posts,canonical_url,{{post->id}}')]
     public string $canonical_url = '';
 
-    #[Validate('required|string')]
     public string $content = '';
 
-    #[Validate('nullable|array')]
     public array $tags = [];
 
-    #[Validate('nullable|date')]
     public $published_at = null;
 
     public function publish(PostDetail $postDetails): void
@@ -45,10 +38,19 @@ class PostForm extends Form
     /**
      * @throws ValidationException
      * @throws Exception
+     * @throws Throwable
      */
     public function update(Post $post, PostDetail $postDetail): Post
     {
-        $this->validate();
+        $this->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'excerpt' => ['required', 'string', 'max:255'],
+            'image' => ['nullable', 'sometimes', 'image', 'max:3072'],
+            'canonical_url' => ['nullable', 'url', Rule::unique('posts', 'canonical_url')->ignore($post->id)],
+            'content' => ['required', 'string'],
+            'tags' => ['nullable', 'array'],
+            'published_at' => ['nullable', 'date'],
+        ]);
 
         DB::beginTransaction();
 
@@ -92,10 +94,19 @@ class PostForm extends Form
     /**
      * @throws ValidationException
      * @throws Exception
+     * @throws Throwable
      */
     public function store(): Post
     {
-        $this->validate();
+        $this->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'excerpt' => ['required', 'string', 'max:255'],
+            'image' => ['nullable', 'sometimes', 'image', 'max:3072'],
+            'canonical_url' => ['nullable', 'url', Rule::unique('posts', 'canonical_url')],
+            'content' => ['required', 'string'],
+            'tags' => ['nullable', 'array'],
+            'published_at' => ['nullable', 'date'],
+        ]);
 
         DB::beginTransaction();
 

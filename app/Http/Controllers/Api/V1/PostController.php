@@ -89,7 +89,7 @@ class PostController extends Controller
         $data['slug'] = Str::slug($data['title']);
 
         if ($this->postExists(userId: auth()->id(), value: $data['slug'])) {
-            return response()->json(['message' => 'Post already exists with same slug'], Response::HTTP_CONFLICT);
+            return response()->json(['message' => 'Post already exists with same title'], Response::HTTP_CONFLICT);
         }
 
         DB::beginTransaction();
@@ -138,7 +138,6 @@ class PostController extends Controller
     {
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'slug' => ['required', 'string', 'max:255'],
             'canonical_url' => ['nullable', 'url', Rule::unique('posts', 'canonical_url')->ignore($post->id)],
             'excerpt' => ['required', 'string', 'max:255'],
             'content' => ['required', 'string'],
@@ -147,10 +146,9 @@ class PostController extends Controller
             'featured_image' => ['nullable', 'url'],
         ]);
 
-        $postBySlug = Post::query()->where('slug', $data['slug'])->first();
-
-        if ($postBySlug && $postBySlug->id !== $post->id) {
-            return response()->json(['message' => 'Post already exists with same slug'], Response::HTTP_CONFLICT);
+        $data['slug'] = Str::slug($data['title']);
+        if ($this->postExists(userId: auth()->id(), value: $data['slug'])) {
+            return response()->json(['message' => 'Post already exists with same title'], Response::HTTP_CONFLICT);
         }
 
         $post->load('content');
