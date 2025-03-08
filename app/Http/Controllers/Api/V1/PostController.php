@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Concerns\Constants;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PostContentResource;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Exception;
@@ -32,7 +31,7 @@ class PostController extends Controller
         ]);
 
         $perPage = request('per_page', Constants::PER_PAGE);
-        $page = request('page', 1);
+        $page = request('page', Constants::DEFAULT_PAGE);
         $status = request('status');
         $query = request('query');
 
@@ -59,19 +58,20 @@ class PostController extends Controller
     }
 
     /**
-     * Show post.
+     * Post Details.
      */
-    public function show(Post $post): PostContentResource
+    public function show(Post $post)
     {
         $post->load('content', 'tags');
 
-        return new PostContentResource($post);
+        return (new PostResource($post))->withContent();
     }
 
     /**
-     * Store post.
+     * Create post.
      *
      * @throws Exception
+     * @throws Throwable
      */
     public function store()
     {
@@ -89,7 +89,7 @@ class PostController extends Controller
             $data['slug'] = Str::slug($data['title']);
         }
 
-        if (Post::query()->where('user_id', auth()->id())->where('slug', $data['slug'])->exists()) {
+        if ($this->postExists(slug: $data['slug'], userId: auth()->id())) {
             return response()->json(['message' => 'Post already exists with same slug'], Response::HTTP_CONFLICT);
         }
 
@@ -103,7 +103,7 @@ class PostController extends Controller
                 userId: auth()->id(),
             );
 
-            return response()->json(['message' => 'Post created successfully'], Response::HTTP_CREATED);
+            return response()->json(['message' => 'Post created successfully', 'id' => $post->id], Response::HTTP_CREATED);
         } catch (Exception $e) {
             DB::rollBack();
             throw new Exception($e->getMessage());

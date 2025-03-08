@@ -25,7 +25,7 @@ trait Post
         return $platform;
     }
 
-    public function createPostUrl(string $postSlug): string
+    public function createPostUrl(string $postSlug): \Illuminate\Foundation\Application
     {
         return url("post/{$postSlug}-{$this->uniqueString()}");
     }
@@ -43,6 +43,11 @@ trait Post
         }
 
         return $tagIds;
+    }
+
+    public function postExists(string $slug, int $userId): bool
+    {
+        return \App\Models\Post::query()->where('user_id', $userId)->where('slug', $slug)->exists();
     }
 
     public function createPost(
