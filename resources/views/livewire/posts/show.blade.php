@@ -16,9 +16,7 @@ new class extends Component
     #[NoReturn]
     public function mount(): void
     {
-        $this->post = Post::query()
-            ->with('details', 'details.platform', 'tags')
-            ->findOrFail(request()->route('post'));
+        $this->post = Post::query()->with('details', 'details.platform', 'tags')->findOrFail(request()->route('post'));
     }
 
     #[NoReturn]

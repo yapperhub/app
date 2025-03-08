@@ -43,6 +43,6 @@ class ApiStatsVault
 
     private function dateFormater($date): string
     {
-        return $date->format('m-d-Y');
+        return $date->format('F j, Y');
     }
 }

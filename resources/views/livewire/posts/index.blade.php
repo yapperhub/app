@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Post;
+use App\Http\DataVault\PostVault;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 
@@ -8,17 +8,10 @@ new class extends Component
 {
     use WithPagination;
 
-    public int $perPage = 20;
-
-    public function with(): array
+    public function with(PostVault $postVault): array
     {
         return [
-            'posts' => Post::query()
-                ->where('user_id', auth()->id())
-                ->latest()
-                ->when(request('q'), fn ($query, $q) => $query->where('title', 'like', "%$q%"))
-                ->with('tags')
-                ->paginate($this->perPage),
+            'posts' => $postVault->postsPaginated(userId: auth()->id(), search: request('q')),
             'headers' => [['key' => 'title', 'label' => 'Title']],
         ];
     }
@@ -50,27 +43,27 @@ new class extends Component
         with-pagination
     >
         @scope('cell_title', $post)
-            <div class="flex items-center justify-between border-b-2 p-3 pb-2">
-                <div>
-                    <div class="text-2xl">
-                        {{ $post->title }}
-                    </div>
-                    <div class="mb-3 mt-2">{{ $post->id }} | {{ $post->canonical_url }}</div>
-                    @foreach ($post->tags as $tag)
-                        <span
-                            class="mr-2 inline-block rounded-full bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700"
-                        >
-                            {{ $tag->name }}
-                        </span>
-                    @endforeach
+        <div class="flex items-center justify-between border-b-2 p-3 pb-2">
+            <div>
+                <div class="text-2xl">
+                    {{ $post->title }}
                 </div>
-
-                <div class="mr-12">
-                    <x-secondary-link href="{{ route('posts.show', ['post' => $post->id]) }}" class="">
-                        Details
-                    </x-secondary-link>
-                </div>
+                <div class="mb-3 mt-2">{{ $post->id }} | {{ $post->canonical_url }}</div>
+                @foreach ($post->tags as $tag)
+                    <span
+                        class="mr-2 inline-block rounded-full bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700"
+                    >
+                        {{ $tag->name }}
+                    </span>
+                @endforeach
             </div>
+
+            <div class="mr-12">
+                <x-secondary-link href="{{ route('posts.show', ['post' => $post->id]) }}" class="">
+                    Details
+                </x-secondary-link>
+            </div>
+        </div>
         @endscope
     </x-mary-table>
 </div>
