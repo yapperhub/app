@@ -14,7 +14,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}" />
 
         {{-- EasyMDE --}}
-        <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+       {{-- <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>--}}
 
         <meta name="color-scheme" content="light only" />
 

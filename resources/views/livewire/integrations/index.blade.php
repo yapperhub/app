@@ -48,6 +48,9 @@ new class extends Component
                     <div>
                         <div class="text-2xl">
                             {{ $platform->name }}
+                            @if ($platform->credentials(userId: auth()->id())->count())
+                                <x-mary-badge value="Connected" class="badge-primary ml-3" />
+                            @endif
                         </div>
                         <div class="mb-1 mt-2">{{ $platform->description }}</div>
                         <div class="mb-3 mt-2">
@@ -56,9 +59,14 @@ new class extends Component
                             </a>
                         </div>
                     </div>
+
                 </div>
                 <x-secondary-link href="{{ route('integrations.show', ['platform' => $platform->id]) }}">
-                    Integrate
+                    @if ($platform->credentials(userId: auth()->id())->count())
+                        Update
+                    @else
+                        Integrate
+                    @endif
                 </x-secondary-link>
             </div>
         @endscope

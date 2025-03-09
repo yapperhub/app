@@ -14,4 +14,9 @@ class PlatformVault
                 return $query->where('name', 'like', "%$search%");
             })->paginate($perPage);
     }
+
+    public function activePlatformsCount(): int
+    {
+        return Platform::query()->where('is_active', true)->count();
+    }
 }

@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\DataVault\CredentialVault;
-use App\Models\Credential;
 use App\Models\Platform;
 use JetBrains\PhpStorm\NoReturn;
 use Livewire\Volt\Component;
@@ -19,10 +18,9 @@ new class extends Component
     public function mount(Platform $platform): void
     {
         $this->platform = $platform;
-
-        $credential = Credential::query()->where('platform_id', $platform->id)->first();
+        $credential = $platform->credentials(userId: auth()->id())->first();
         if ($credential) {
-            $this->apiKey = $credential->value;
+            $this->apiKey = decrypt($credential->value);
         }
     }
 
@@ -59,5 +57,19 @@ new class extends Component
                 <x-primary-button type="submit">Save</x-primary-button>
             </div>
         </div>
+
+        <x-mary-alert icon="o-exclamation-triangle" class="alert-warning mt-8 w-1/2">
+            Your API key will be <strong>Encrypted</strong> before saving.
+        </x-mary-alert>
+
+        <h2 class="mt-8 font-semibold text-lg">How to get API Key?</h2>
+        <p class="mt-2 mb-2">
+            To get the API Key, you need to follow the below steps:
+        </p>
+        <ul>
+            <li>- Go to the <a href="https://dev.to/settings/extensions" target="_blank" class="text-blue-500">dev.to settings</a></li>
+            <li>- In the bottom of the page, you will see "DEV Community API Keys" section.</li>
+            <li>- Generate a new API key.</li>
+        </ul>
     </form>
 </div>
