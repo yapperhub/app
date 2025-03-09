@@ -9,7 +9,7 @@ class Platform extends Model
 {
     use HasUuids;
 
-    protected $fillable = ['name', 'slug', 'description', 'url', 'logo', 'credentials', 'is_active'];
+    protected $fillable = ['name', 'slug', 'description', 'url', 'logo', 'is_active'];
 
     protected $primaryKey = 'id';
 

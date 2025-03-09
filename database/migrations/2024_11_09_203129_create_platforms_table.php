@@ -15,7 +15,6 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('url')->nullable();
             $table->string('logo')->nullable();
-            $table->json('credentials')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

@@ -13,7 +13,6 @@ return new class extends Migration
             'description' => 'Yapper Hub is a platform for developers to share their blog posts on other platforms.',
             'url' => 'https://yapperhub.com',
             'logo' => 'https://yapperhub.com/img/yh-no-bg.png',
-            'credentials' => null,
             'is_active' => false,
         ]);
     }

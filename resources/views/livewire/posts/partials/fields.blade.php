@@ -2,7 +2,7 @@
     <div class="w-1/2 space-y-4">
         <div class="space-y-1">
             <x-input-label for="title" required="true">Title</x-input-label>
-            <x-text-input id="title" name="form.title" type="text" wire:model="form.title" class="w-full" />
+            <x-text-input id="title" name="form.title" type="text" wire:model="form.title" class="w-full" required />
         </div>
         <div class="space-y-1">
             <x-input-label for="canonical-url" required="{{ false }}">Canonical Url</x-input-label>
@@ -33,9 +33,9 @@
 </div>
 <div class="mt-6 space-y-1">
     <x-input-label for="excerpt" required="true">Excerpt / Meta Description</x-input-label>
-    <x-text-area id="excerpt" name="form.excerpt" type="text" wire:model="form.excerpt" class="w-full" />
+    <x-text-area id="excerpt" name="form.excerpt" type="text" wire:model="form.excerpt" class="w-full" required />
 </div>
 <div class="mt-6 space-y-1">
     <x-input-label for="content" required="{{ true }}">Content</x-input-label>
-    <x-mary-markdown wire:model="form.content" label="" />
+    <x-mary-markdown wire:model="form.content" label="" required />
 </div>

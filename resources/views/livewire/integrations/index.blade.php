@@ -36,14 +36,14 @@ new class extends Component
     <x-mary-table
         :headers="$headers"
         :rows="$platforms"
-        {{--per-page="perPage"--}}
+        {{-- per-page="perPage" --}}
         :per-page-values="[20, 30, 50, 100]"
         no-headers
         with-pagination
     >
         @scope('cell_title', $platform)
             <div class="flex items-center justify-between border-b-2 pb-5">
-                <div class="flex items-center gap-6">
+                <div class="flex items-center gap-5">
                     <img src="{{ $platform->logo }}" alt="{{ $platform->name }}" class="h-16 w-16 rounded-lg" />
                     <div>
                         <div class="text-2xl">
@@ -57,7 +57,7 @@ new class extends Component
                         </div>
                     </div>
                 </div>
-                <x-secondary-link href="{{ route('posts.show', ['post' => $platform->id]) }}">
+                <x-secondary-link href="{{ route('integrations.show', ['platform' => $platform->id]) }}">
                     Integrate
                 </x-secondary-link>
             </div>
