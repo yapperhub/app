@@ -62,25 +62,23 @@ new class extends Component
                 <h2 class="text-xl font-semibold text-gray-900">{{ $details->platform->name }}</h2>
                 <hr class="mb-2 mt-2" />
 
-                <div class="flex flex-row items-center justify-between gap-5">
+                <div class="flex flex-row items-center justify-between gap-10">
                     <div class="flex flex-row items-center gap-5">
                         <img
-                            src="{{ filter_var($details->featured_image, FILTER_VALIDATE_URL) ?  $details->featured_image : url('storage/' . $details->featured_image) }}"
+                            src="{{ filter_var($details->featured_image, FILTER_VALIDATE_URL) ? $details->featured_image : url('storage/' . $details->featured_image) }}"
                             alt="{{ $post->title }}"
                             class="h-20 w-20 rounded-full object-cover"
                         />
-
-                        <div class="mt-4 flex flex-col">
-                            <span class="mb-2">
+                        <div class="mt-4 flex flex-col gap-3">
+                            <span class="">
                                 @if ($details->isPublished())
-                                    <x-mary-badge value="Published" class="badge-primary" />
-                                    {!! $details->published_at->format('F j, Y') !!}
+                                    <x-mary-badge value="Published: {!! $details->published_at->format('F j, Y') !!}" class="badge-primary" />
                                 @else
                                     <x-mary-badge value="Draft" class="badge-warning" />
                                 @endif
                             </span>
                             <span>{!! $details->excerpt !!}</span>
-                            <span>updated at: {!! $details->updated_at->format('F j, Y') !!}</span>
+                            <x-mary-badge value="updated: {!! $details->updated_at->format('F j, Y') !!}" class="badge-info" />
                         </div>
                     </div>
 

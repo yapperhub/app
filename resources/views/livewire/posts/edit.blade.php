@@ -78,22 +78,27 @@ new class extends Component
 <div>
     <form wire:submit.prevent="submit">
         <div class="container mx-auto mt-4 text-lg">
+
             @include('livewire.posts.partials.fields')
-            <div class="mt-4 flex w-1/2 justify-start">
-                <x-primary-button type="submit">Update</x-primary-button>
-                @if ($this->isPublished)
-                    <x-mary-button
-                        label="Unpublish"
-                        @click="$wire.unPublishModal = true"
-                        class="btn-sm ml-2 bg-red-500 text-white hover:bg-black"
-                    />
-                @else
-                    <x-mary-button
-                        label="Publish"
-                        @click="$wire.publishModal = true"
-                        class="btn-sm ml-2 bg-primary text-white hover:bg-black"
-                    />
-                @endif
+
+            <div class="flex flex-row justify-between mt-4 ">
+                <div class="flex w-1/2 justify-start">
+                    <x-primary-button type="submit">Update</x-primary-button>
+                    @if ($this->isPublished)
+                        <x-mary-button
+                            label="Unpublish"
+                            @click="$wire.unPublishModal = true"
+                            class="btn-sm ml-2 bg-red-500 text-white hover:bg-black"
+                        />
+                    @else
+                        <x-mary-button
+                            label="Publish"
+                            @click="$wire.publishModal = true"
+                            class="btn-sm ml-2 bg-primary text-white hover:bg-black"
+                        />
+                    @endif
+                </div>
+                <x-secondary-button onclick="window.history.back()">Cancel</x-secondary-button>
             </div>
         </div>
     </form>
