@@ -78,10 +78,9 @@ new class extends Component
 <div>
     <form wire:submit.prevent="submit">
         <div class="container mx-auto mt-4 text-lg">
-
             @include('livewire.posts.partials.fields')
 
-            <div class="flex flex-row justify-between mt-4 ">
+            <div class="mt-4 flex flex-row justify-between">
                 <div class="flex w-1/2 justify-start">
                     <x-primary-button type="submit">Update</x-primary-button>
                     @if ($this->isPublished)

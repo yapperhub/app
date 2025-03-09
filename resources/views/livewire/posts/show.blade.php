@@ -72,13 +72,19 @@ new class extends Component
                         <div class="mt-4 flex flex-col gap-3">
                             <span class="">
                                 @if ($details->isPublished())
-                                    <x-mary-badge value="Published: {!! $details->published_at->format('F j, Y') !!}" class="badge-primary" />
+                                    <x-mary-badge
+                                        value="Published: {!! $details->published_at->format('F j, Y') !!}"
+                                        class="badge-primary"
+                                    />
                                 @else
                                     <x-mary-badge value="Draft" class="badge-warning" />
                                 @endif
                             </span>
                             <span>{!! $details->excerpt !!}</span>
-                            <x-mary-badge value="updated: {!! $details->updated_at->format('F j, Y') !!}" class="badge-info" />
+                            <x-mary-badge
+                                value="updated: {!! $details->updated_at->format('F j, Y') !!}"
+                                class="badge-info"
+                            />
                         </div>
                     </div>
 

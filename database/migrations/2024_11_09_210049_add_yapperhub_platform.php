@@ -14,6 +14,7 @@ return new class extends Migration
             'url' => 'https://yapperhub.com',
             'logo' => 'https://yapperhub.com/img/yh-no-bg.png',
             'credentials' => null,
+            'is_active' => false,
         ]);
     }
 
