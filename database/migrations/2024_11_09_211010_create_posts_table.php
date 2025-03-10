@@ -19,18 +19,15 @@ return new class extends Migration
 
         Schema::create('post_details', function (Blueprint $table) {
             $table->uuid('id')->primary();
-
+            $table->string('external_id')->nullable();
             $table->uuid('post_id');
             $table->foreign('post_id')->references('id')->on('posts')->cascadeOnDelete();
-
             $table->uuid('platform_id');
             $table->foreign('platform_id')->references('id')->on('platforms')->cascadeOnDelete();
-
             $table->text('content');
             $table->text('excerpt')->nullable();
             $table->string('featured_image')->nullable();
             $table->timestamp('published_at')->nullable();
-
             $table->timestamps();
         });
     }

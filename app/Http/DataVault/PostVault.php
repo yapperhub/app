@@ -30,4 +30,9 @@ class PostVault
             ->with('tags')
             ->paginate($perPage);
     }
+
+    public function postExists(int $userId, string $value, string $colum = 'slug'): bool
+    {
+        return Post::query()->where('user_id', $userId)->where($colum, $value)->exists();
+    }
 }
