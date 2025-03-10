@@ -3,13 +3,13 @@
 namespace App\Adapters;
 
 use App\Concerns\Constants;
-use App\Concerns\Interfaces\BaseAdapterInterface;
+use App\Concerns\Interfaces\AdapterInterface;
 use App\Models\Platform;
 use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
-class DevAdapter extends BaseAdapter implements BaseAdapterInterface
+class DevAdapter extends BaseAdapter implements AdapterInterface
 {
     private const BASE_ARTICLE_URL = 'https://dev.to/api/articles/';
 

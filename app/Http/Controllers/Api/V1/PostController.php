@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Concerns\Constants;
 use App\Http\Controllers\Controller;
+use App\Http\DataVault\PostVault;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Exception;
@@ -17,8 +18,6 @@ use Throwable;
 
 class PostController extends Controller
 {
-    use \App\Concerns\Post;
-
     /**
      * List posts.
      */
@@ -74,7 +73,7 @@ class PostController extends Controller
      * @throws Exception
      * @throws Throwable
      */
-    public function store(Request $request)
+    public function store(Request $request, PostVault $postVault)
     {
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
@@ -88,24 +87,24 @@ class PostController extends Controller
 
         $data['slug'] = Str::slug($data['title']);
 
-        if ($this->postExists(userId: auth()->id(), value: $data['slug'])) {
+        if ($postVault->postExists(userId: auth()->id(), value: $data['slug'])) {
             return response()->json(['message' => 'Post already exists with same title'], Response::HTTP_CONFLICT);
         }
 
         DB::beginTransaction();
 
         try {
-            $post = $this->createPost(
+            $post = $postVault->createPost(
                 title: $data['title'],
                 slug: $data['slug'],
-                canonicalUrl: ! isset($data['canonical_url']) ? $this->createPostUrl($data['slug']) : $data['canonical_url'],
+                canonicalUrl: ! isset($data['canonical_url']) ? $postVault->createPostUrl($data['slug']) : $data['canonical_url'],
                 userId: auth()->id(),
                 source: 'api'
             );
 
-            $yapperHubPlatform = $this->getPlatform();
+            $yapperHubPlatform = $postVault->getPlatform();
 
-            $this->createPostDetails(
+            $postVault->createPostDetails(
                 postId: $post->id,
                 content: $data['content'],
                 platformId: $yapperHubPlatform->id,
@@ -115,7 +114,7 @@ class PostController extends Controller
 
             $tags = $data['tags'] ?? [];
             if (count($tags)) {
-                $post->tags()->sync($this->tagNameToId(tags: $tags));
+                $post->tags()->sync($postVault->tagNameToId(tags: $tags));
             }
 
             DB::commit();
@@ -135,7 +134,7 @@ class PostController extends Controller
      *
      * @throws Throwable
      */
-    public function update(Post $post, Request $request)
+    public function update(Post $post, Request $request, PostVault $postVault)
     {
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
@@ -148,7 +147,7 @@ class PostController extends Controller
         ]);
 
         $data['slug'] = Str::slug($data['title']);
-        if ($this->postExists(userId: auth()->id(), value: $data['slug'])) {
+        if ($postVault->postExists(userId: auth()->id(), value: $data['slug'])) {
             return response()->json(['message' => 'Post already exists with same title'], Response::HTTP_CONFLICT);
         }
 
@@ -159,7 +158,7 @@ class PostController extends Controller
         try {
             $post->update([
                 'title' => $data['title'],
-                'canonical_url' => ! isset($data['canonical_url']) ? $this->createPostUrl($data['slug']) : $data['canonical_url'],
+                'canonical_url' => ! isset($data['canonical_url']) ? $postVault->createPostUrl($data['slug']) : $data['canonical_url'],
                 'slug' => $data['slug'],
             ]);
 
@@ -171,7 +170,7 @@ class PostController extends Controller
 
             $tags = $data['tags'] ?? [];
             if (count($tags)) {
-                $post->tags()->sync($this->tagNameToId(tags: $tags));
+                $post->tags()->sync($postVault->tagNameToId(tags: $tags));
             }
 
             DB::commit();

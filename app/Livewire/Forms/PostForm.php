@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Http\DataVault\PostVault;
 use App\Models\Post;
 use App\Models\PostDetail;
 use Exception;
@@ -9,13 +10,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
+use Livewire\Component;
 use Livewire\Form;
 use Throwable;
 
 class PostForm extends Form
 {
-    use \App\Concerns\Post;
-
     public string $title = '';
 
     public string $excerpt = '';
@@ -29,6 +29,15 @@ class PostForm extends Form
     public array $tags = [];
 
     public $published_at = null;
+
+    public PostVault $postVault;
+
+    public function __construct(Component $component, $propertyName)
+    {
+        parent::__construct($component, $propertyName);
+
+        $this->postVault = new PostVault;
+    }
 
     public function publish(PostDetail $postDetails): void
     {
@@ -55,12 +64,12 @@ class PostForm extends Form
         DB::beginTransaction();
 
         try {
-            $yapperHubPlatform = $this->getPlatform(request()->route('platform'));
+            $yapperHubPlatform = $this->postVault->getPlatform(request()->route('platform'));
             $slug = Str::slug($this->title);
 
             $post->update([
                 'title' => $this->title,
-                'canonical_url' => empty($this->canonical_url) ? $this->createPostUrl($slug) : $this->canonical_url,
+                'canonical_url' => empty($this->canonical_url) ? $this->postVault->createPostUrl($slug) : $this->canonical_url,
                 'slug' => $slug,
             ]);
 
@@ -76,7 +85,7 @@ class PostForm extends Form
             ]);
 
             if (! empty($this->tags)) {
-                $post->tags()->sync($this->tagNameToId(tags: $this->tags));
+                $post->tags()->sync($this->postVault->tagNameToId(tags: $this->tags));
             }
 
             DB::commit();
@@ -111,17 +120,17 @@ class PostForm extends Form
         DB::beginTransaction();
 
         try {
-            $yapperHubPlatform = $this->getPlatform();
+            $yapperHubPlatform = $this->postVault->getPlatform();
             $slug = Str::slug($this->title);
 
-            $post = $this->createPost(
+            $post = $this->postVault->createPost(
                 title: $this->title,
                 slug: $slug,
-                canonicalUrl: empty($this->canonical_url) ? $this->createPostUrl($slug) : $this->canonical_url,
+                canonicalUrl: empty($this->canonical_url) ? $this->postVault->createPostUrl($slug) : $this->canonical_url,
                 userId: auth()->id()
             );
 
-            $this->createPostDetails(
+            $this->postVault->createPostDetails(
                 postId: $post->id,
                 content: $this->content,
                 platformId: $yapperHubPlatform->id,
@@ -130,7 +139,7 @@ class PostForm extends Form
             );
 
             if (! empty($this->tags)) {
-                $post->tags()->sync($this->tagNameToId(tags: $this->tags));
+                $post->tags()->sync($this->postVault->tagNameToId(tags: $this->tags));
             }
 
             DB::commit();
