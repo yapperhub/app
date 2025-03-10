@@ -58,7 +58,7 @@ new class extends Component
 
     <div class="mt-12">
         @foreach ($post->details as $details)
-            <div class="">
+            <div class="mt-12">
                 <h2 class="text-xl font-semibold text-gray-900">{{ $details->platform->name }}</h2>
                 <hr class="mb-2 mt-2" />
 

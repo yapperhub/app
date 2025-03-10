@@ -57,24 +57,28 @@ class DevService
                     $createdPost->tags()->sync($this->postVault->tagNameToId(tags: $post['tag_list']));
                 }
 
-                // creating post-details for dev.to
-                $this->postVault->createPostDetails(
-                    postId: $createdPost->id,
-                    content: $this->filterMarkdown(unfilteredMarkdown: $post['body_markdown']),
-                    platformId: $this->platform->id,
-                    excerpt: $post['description'],
-                    featuredImage: $post['cover_image'],
-                    externalId: $post['id'],
-                );
+                $filteredMarkdown = $this->filterMarkdown(unfilteredMarkdown: $post['body_markdown']);
 
                 // creating post-details for yapper hub
                 $this->postVault->createPostDetails(
                     postId: $createdPost->id,
-                    content: $this->filterMarkdown(unfilteredMarkdown: $post['body_markdown']),
+                    content: $filteredMarkdown,
                     platformId: $this->yapperHubPlatform->id,
                     excerpt: $post['description'],
                     featuredImage: $post['cover_image'],
+                    externalId: $createdPost->id,
+                    publishedAt: $post['published'] ? $post['published_at'] : null,
+                );
+
+                // creating post-details for dev.to
+                $this->postVault->createPostDetails(
+                    postId: $createdPost->id,
+                    content: $filteredMarkdown,
+                    platformId: $this->platform->id,
+                    excerpt: $post['description'],
+                    featuredImage: $post['cover_image'],
                     externalId: $post['id'],
+                    publishedAt: $post['published'] ? $post['published_at'] : null,
                 );
 
                 DB::commit();
