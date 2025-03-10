@@ -99,6 +99,7 @@ class PostVault
         string $platformId,
         ?string $excerpt,
         ?string $featuredImage,
+        ?string $externalId = null,
     ) {
         return PostDetail::query()->create([
             'post_id' => $postId,
@@ -106,6 +107,7 @@ class PostVault
             'featured_image' => $featuredImage,
             'content' => $content,
             'platform_id' => $platformId,
+            'external_id' => $externalId,
         ]);
     }
 }

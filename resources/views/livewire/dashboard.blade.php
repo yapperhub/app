@@ -10,8 +10,12 @@ new class extends Component
 {
     public array $apiStats;
 
-    public function with(ApiStatsVault $apiStatsVault, PostVault $postVault, PlatformVault $platformVault, CredentialVault $credentialVault): array
-    {
+    public function with(
+        ApiStatsVault $apiStatsVault,
+        PostVault $postVault,
+        PlatformVault $platformVault,
+        CredentialVault $credentialVault,
+    ): array {
         $this->apiStats = $apiStatsVault->chart(apiStatsArray: $apiStatsVault->handle(userId: auth()->id()));
 
         return [

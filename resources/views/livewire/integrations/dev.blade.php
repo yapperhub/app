@@ -36,7 +36,12 @@ new class extends Component
         ]);
 
         $credentialVault->revoke(platform: $this->platform, userId: auth()->id());
-        $credentialVault->save(platform: $this->platform, userId: auth()->id(), key: 'apiKey', value: $validated['apiKey']);
+        $credentialVault->save(
+            platform: $this->platform,
+            userId: auth()->id(),
+            key: 'apiKey',
+            value: $validated['apiKey'],
+        );
 
         $this->toast(
             type: 'success',
@@ -66,7 +71,11 @@ new class extends Component
 
 <div>
     <x-mary-alert icon="o-exclamation-triangle" class="alert-warning">
-        Your API key will be <strong>Encrypted</strong> before saving. We <strong>don't</strong> store API key in plain text.
+        Your API key will be
+        <strong>Encrypted</strong>
+        before saving. We
+        <strong>don't</strong>
+        store API key in plain text.
     </x-mary-alert>
 
     <form wire:submit.prevent="submit" class="mt-12" enctype="multipart/form-data" method="post">
@@ -83,16 +92,15 @@ new class extends Component
                     <x-secondary-button class="ml-2" wire:click="sync">Sync</x-secondary-button>
                 @endif
             </div>
-
         </div>
 
-        <h2 class="mt-8 font-semibold text-lg">How to get API Key?</h2>
-        <p class="mt-2 mb-2">
-            To get the API Key, you need to follow the below steps:
-        </p>
+        <h2 class="mt-8 text-lg font-semibold">How to get API Key?</h2>
+        <p class="mb-2 mt-2">To get the API Key, you need to follow the below steps:</p>
         <ul>
-            <li>- Go to the <a href="https://dev.to/settings/extensions" target="_blank" class="text-blue-500">dev.to
-                    settings</a></li>
+            <li>
+                - Go to the
+                <a href="https://dev.to/settings/extensions" target="_blank" class="text-blue-500">dev.to settings</a>
+            </li>
             <li>- In the bottom of the page, you will see "DEV Community API Keys" section.</li>
             <li>- Generate a new API key.</li>
         </ul>

@@ -3,9 +3,10 @@
 namespace App\Jobs;
 
 use App\Adapters\DevAdapter;
-use App\Http\DataVault\PostVault;
+use App\Services\DevService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Throwable;
 
 class SyncDev implements ShouldQueue
 {
@@ -26,8 +27,10 @@ class SyncDev implements ShouldQueue
 
     /**
      * Execute the job.
+     *
+     * @throws Throwable
      */
-    public function handle(DevAdapter $devAdapter, PostVault $postVault): void
+    public function handle(DevAdapter $devAdapter, DevService $devService): void
     {
         $devPosts = $devAdapter->posts(apiKey: $this->apiKey, userId: $this->userId);
 
@@ -35,22 +38,6 @@ class SyncDev implements ShouldQueue
             return;
         }
 
-        foreach ($devPosts['data'] as $post) {
-            $postSlug = $devAdapter->filterSlug(unfilteredSlug: $post['slug']);
-
-            $ifExist = $postVault->postExists(userId: $this->userId, value: $postSlug);
-
-            if ($ifExist) {
-                continue;
-            }
-
-            $ifExist = $postVault->postExists(userId: $this->userId, value: $post['canonical_url'], colum: 'canonical_url');
-
-            if ($ifExist) {
-                continue;
-            }
-        }
-
-        // Process the posts
+        $devService->processPosts(posts: $devPosts['data'], userId: $this->userId);
     }
 }

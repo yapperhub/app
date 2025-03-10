@@ -62,11 +62,6 @@ class DevAdapter extends BaseAdapter implements AdapterInterface
         }
     }
 
-    public function filterSlug(string $unfilteredSlug): string
-    {
-        return implode('-', array_slice(explode('-', $unfilteredSlug), 0, -1));
-    }
-
     private function platform()
     {
         return Platform::query()->where('slug', Constants::DEV_PLATFORM_SLUG)->first();

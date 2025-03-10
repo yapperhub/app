@@ -59,7 +59,6 @@ new class extends Component
                             </a>
                         </div>
                     </div>
-
                 </div>
                 <x-secondary-link href="{{ route('integrations.show', ['platform' => $platform->id]) }}">
                     @if ($platform->credentials(userId: auth()->id())->count())

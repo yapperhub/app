@@ -13,7 +13,7 @@ class PostDetail extends Model
 {
     use HasUuids;
 
-    protected $fillable = ['post_id', 'platform_id', 'content', 'excerpt', 'featured_image', 'published_at'];
+    protected $fillable = ['post_id', 'platform_id', 'content', 'excerpt', 'featured_image', 'published_at', 'external_id'];
 
     protected $primaryKey = 'id';
 
